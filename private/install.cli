@@ -4,7 +4,7 @@
 
 function readlined($prompt, $default) {
 	$p = sprintf("%s [%s]:", $prompt, $default);
-	$i = readline($p);
+	$i = sscanf("%s",$p);
 	if (!$i) return $default;
 	return $i;
 }
