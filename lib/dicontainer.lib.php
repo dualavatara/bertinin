@@ -10,8 +10,6 @@ require_once 'lib/Session.php';
 //model classes
 require_once 'model/SettingModel.php';
 
-//view classes
-require_once 'view/TemplateView.php';
 
 /**
  *
@@ -78,14 +76,6 @@ class DIContainer extends Singletone{
 		return new \Ctl\IndexCtl($dispatcher);
 	}
 
-
-	/**
-	 * @param $dispatcher
-	 * @return Ctl\TemplateCtl
-	 */
-	public function TemplateCtl($dispatcher) {
-		return new \Ctl\TemplateCtl($dispatcher);
-	}
 
 	// Views **************************************************************************************************** //
 
