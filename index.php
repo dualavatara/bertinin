@@ -32,23 +32,26 @@ else {
 
 	$di = new DIContainer();
 	$disp = $di->Dispatcher();
-	Settings::obj()->set($di->SettingModel());
-	//UrlAliases::obj()->set($di->UrlAliasesModel());
+try {
+    if (Settings::obj()->value('maitenance')) {
+        require('static/html/maitenance.html');
+        return;
+    }
+    else {
+        try {
+            $disp->main();
+        }
+        catch (\NotFoundException $e) {
+            header('HTTP/1.1 404 Not Found');
+            $_SERVER['REQUEST_URI'] = Settings::obj()->get()->get404();
+            $disp->main();
+        }
+    }
+} catch (ModelException $e) {
+    require('static/html/maitenance.html');
+    return;
+}
 
-if (Settings::obj()->get()->getClosed() and (!isset($_SESSION['user']) or !in_array('closed_index',$_SESSION['routes']))) {
-	require('static/html/maitenance.html');
-	return;
-}
-else {
-	try {
-	    $disp->main();
-	}
-    catch (\NotFoundException $e) {
-		header('HTTP/1.1 404 Not Found');
-		$_SERVER['REQUEST_URI'] = Settings::obj()->get()->get404();
-		$disp->main();
-	}
-}
 /*} catch (Exception $e) {
 	header('HTTP/1.1 500 Internal Server Error');
 	Logger::obj()->error($e->getMessage());

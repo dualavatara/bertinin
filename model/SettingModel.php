@@ -17,20 +17,21 @@ class Settings extends Singletone {
 	 */
 	private $model;
 
-	/**
-	 * @param \SettingModel $model
-	 */
-	public function set(SettingModel $model) {
-		$this->model = $model;
-		$model->get()->all()->exec();
-	}
+    /**
+     *
+     */
+    public function __construct() {
+        $this->model = DIContainer::obj()->SettingModel();
+    }
 
-	/**
-	 * @return SettingModel
-	 */
-	public function get() {
-		return $this->model;
-	}
+    /**
+     * @return mixed
+     * @return SettingModel
+     */
+    public static function obj() {
+        return parent::obj()->model;
+    }
+
 }
 /**
  *
