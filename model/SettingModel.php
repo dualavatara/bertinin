@@ -8,6 +8,9 @@
 require_once 'lib/model.lib.php';
 require_once 'lib/singletone.lib.php';
 
+/**
+ * Class Settings
+ */
 class Settings extends Singletone {
 	/**
 	 * @var SettingModel
@@ -42,5 +45,18 @@ class SettingModel extends Model {
 		$this->field(new CharField('name'));
 		$this->field(new CharField('varname'));
 		$this->field(new Charfield('value',Field::STRIP_SLASHES));
+
+        //Load all settings on construction
+        $this->get()->all()->exec();
 	}
+
+    /**
+     * @param $varname
+     */
+    public function value($varname) {
+        foreach($this as $row) {
+            if ($row->varname == $varname) return $row->value;
+        }
+        throw new ModelException("Varname not found");
+     }
 }
