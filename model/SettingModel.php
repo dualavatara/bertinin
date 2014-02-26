@@ -33,7 +33,7 @@ class Settings extends Singletone {
  *
  */
 class SettingModel extends Model {
-	const PHONE_1		= 1;
+	const PHONE		= 1;
 	const PHONE_2		= 2;
 	const FAX			= 3;
 	const SKYPE			= 4;
@@ -53,25 +53,8 @@ class SettingModel extends Model {
 		parent::__construct('settings', $db);
 
 		$this->field(new CharField('name'));
+		$this->field(new CharField('varname'));
 		$this->field(new Charfield('value',Field::STRIP_SLASHES));
-	}
-
-	public function fixedIds() {
-		return array(
-			self::PHONE_1	 ,
-			self::PHONE_2	 ,
-			self::FAX		 ,
-			self::SKYPE		 ,
-			self::ADDRESS	 ,
-			self::EMAIL		 ,
-			self::DESCRIPTION,
-			self::TITLE		 ,
-			self::PER_PAGE	 ,
-			self::SEOTEXT	 ,
-			self::KEYWORDS	 ,
-			self::CLOSED	 ,
-			self::ERR404	 ,
-		);
 	}
 
 	/**
@@ -95,75 +78,4 @@ class SettingModel extends Model {
 		}
 		return null;
 	}
-	/**
-	 * Coverage of getters is unnecessary
-	 * @codeCoverageIgnore
-	 * @return mixed
-	 */
-	public function getPhone1() { return $this->atId(SettingModel::PHONE_1)->value; }
-
-	//@codeCoverageIgnoreStart
-
-	/**
-	 * @return mixed
-	 */
-	public function getPhone2() { return $this->atId(SettingModel::PHONE_2)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getFax() { return $this->atId(SettingModel::FAX)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getSkype() { return $this->atId(SettingModel::SKYPE)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getAddress() { return $this->atId(SettingModel::ADDRESS)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getEmail() { return $this->atId(SettingModel::EMAIL)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getSEOText() { return stripslashes($this->atId(SettingModel::SEOTEXT)->value); }
-
-	/**
-	 * @return mixed
-	 */
-	public function getTitle() { return $this->atId(SettingModel::TITLE)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getPerPage() { return $this->atId(SettingModel::PER_PAGE)->value; }
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getDescription() { return $this->atId(SettingModel::DESCRIPTION)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getKeywords() { return $this->atId(SettingModel::KEYWORDS)->value; }
-
-	/**
-	 * @return mixed
-	 */
-	public function getClosed() { return $this->atId(SettingModel::CLOSED)->value; }
-	//@codeCoverageIgnoreEnd
-
-	/**
-	 * @return mixed
-	 */
-	public function get404() { return $this->atId(SettingModel::ERR404)->value; }
-	//@codeCoverageIgnoreEnd
 }
