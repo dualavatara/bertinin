@@ -342,5 +342,12 @@ abstract class RequestHandler {
 	public function addMatcher(IRequestMatcher $matcher) {
 		$this->matchers[] = $matcher;
 	}
+
+    /**
+     * @return \IRequestMatcher[]
+     */
+    public function getMatchers() {
+        return $this->matchers;
+    }
 }
 ?>

@@ -1,6 +1,9 @@
 <?
 require_once('config/config.php');
 
+//config
+
+require_once 'config/webhandler.config.php';
 //lib classes
 require_once('lib/requesthandler.web.lib.php');
 require_once('lib/dispatcher.lib.php');
@@ -46,7 +49,7 @@ class DIContainer extends Singletone{
 	 * @return WebRequestHandler
 	 */
 	public function WebRequestHandler(IDispatcher $dispatcher) {
-		return new WebRequestHandler($dispatcher);
+		return new WebRequestHandler($dispatcher, WebRequestHandlerConfig::$records);
 	}
 
 	/**

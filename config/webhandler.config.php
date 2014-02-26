@@ -7,15 +7,7 @@
  */
 
 class WebRequestHandlerConfig {
-    private $records = array(
+    static $records = array(
         array('/^\/$/', 'IndexCtl->main', IRequestMatcher::NO_AUTH_REQUIRED)
     );
-
-    /**
-     * @return array
-     */
-    public function getRecords() {
-        return $this->records;
-    }
-
 }
