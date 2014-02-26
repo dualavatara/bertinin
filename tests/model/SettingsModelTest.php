@@ -54,20 +54,6 @@ class SettingsModelTest extends PHPUnit_PDO_Database_TestCase {
 		$this->assertInstanceOf("CharField", $this->object->getField("name"));
 		$this->assertInstanceOf("CharField", $this->object->getField("value"));
 	}
-
-	/**
-	 * @covers SettingModel::atId
-	 */
-	public function testAtId() {
-		$this->object->get()->all()->exec();
-		$this->assertNull($this->object->atId(152));
-		$this->assertInstanceOf('ModelDataWrapper', $this->object->atId(2));
-		$this->assertEquals(array(
-				'id' => 2,
-				'name' => 'another test name',
-				'value' => 'second test value'
-			), $this->object->atId(2)->all());
-	}
 }
 
 ?>

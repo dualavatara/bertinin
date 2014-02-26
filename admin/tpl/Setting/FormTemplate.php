@@ -41,6 +41,10 @@ class FormTemplate extends Template {
 						<td>Опция</td>
 						<td><input name="form[name]" class="required" minlength="2" value="<?php echo $setting->name; ?>"/></td>
 					</tr>
+                    <tr>
+						<td>Переменная</td>
+						<td><input name="form[varname]" class="required" minlength="2" value="<?php echo $setting->varname; ?>"/></td>
+					</tr>
 					<tr>
 						<td>Значение</td>
 						<td><textarea rows="10" cols="40" name="form[value]"><?php echo stripslashes($setting->value); ?></textarea></td>

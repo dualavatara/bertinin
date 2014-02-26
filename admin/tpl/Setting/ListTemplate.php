@@ -21,6 +21,7 @@ class ListTemplate extends Template {
 		<tr>
 			<th width="1%">id</th>
 			<th>Опция</th>
+			<th>Переменная</th>
 			<th>Значение</th>
 			<th width="1%">&nbsp;</th>
 		</tr>
@@ -32,8 +33,8 @@ class ListTemplate extends Template {
                         $this->showLink($item->name,'setting_edit', array('id' => $item->id));
                     else echo $item->name;?>
 				</td>
-				<td><?php echo $item->value;?>
-				</td>
+				<td><?php echo $item->varname;?></td>
+				<td><?php echo $item->value;?></td>
 				<td>
                     <?php $this->showLink('&nbsp;X&nbsp;','setting_delete', array('id' => $item->id),
                                        'onClick="return AdminJS.deleteConfirmation();"');?>
