@@ -41,11 +41,11 @@ return array(
 		'user_save' => array('/user/save', 'User', 'save'),
 		'user_add' => array('/user/add', 'User', 'add'),
 
-        'setting_edit' => array('/setting/edit/{id}', 'Settings', 'edit'),
-        'setting_delete' => array('/setting/delete/{id}', 'Settings', 'delete'),
-        'setting_list' => array('/setting/list', 'Settings', 'list'),
-        'setting_save' => array('/setting/save', 'Settings', 'save'),
-        'setting_add' => array('/setting/add', 'Settings', 'add'),
+        'setting_edit' => array('/setting/edit/{id}', 'Setting', 'edit'),
+        'setting_delete' => array('/setting/delete/{id}', 'Setting', 'delete'),
+        'setting_list' => array('/setting/list', 'Setting', 'list'),
+        'setting_save' => array('/setting/save', 'Setting', 'save'),
+        'setting_add' => array('/setting/add', 'Setting', 'add'),
 	),
 
 	'menu' => array(

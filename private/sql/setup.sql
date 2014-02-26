@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `bertinin` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `bertinin`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
 -- Host: localhost    Database: bertinin
