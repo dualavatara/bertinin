@@ -75,7 +75,7 @@ class FormTemplate extends Template {
 	                        <input type="checkbox" id="allcheck_<?php echo $i;?>_<?php echo $k;?>"
 								   name="form[routes][<?php echo $route_name; ?>]"
 								   onchange="checkParent('allcheck\\_<?php echo $i;?>');checkParent('allcheck');"
-								<?php if(isset($data['access']) && in_array($route_name, $data['access']->getRaw())) echo 'checked';  ?>
+								<?php if(in_array($route_name, $data['access'])) echo 'checked';  ?>
 								<?php echo $dis;?>
 								/>
 							<?php if ($dis) { ?>

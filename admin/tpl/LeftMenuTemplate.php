@@ -9,9 +9,11 @@ class LeftMenuTemplate extends Template {
 
 		$html = "<ul>\n";
 		$allowed = $this->app['user']->getRoutes();
+        $routename = $this->app->getRouteName($this->app->path);
+            $menuItem = $config->getMenuItem($routename);
 		foreach ($config->menu as $name => $item) {
 			$title = $item['title'];
-			if (isset($data['menu']) && ($data['menu'] == $name)) {
+			if (isset($menuItem) && ($menuItem[0] == $name)) {
 				$title = '<span class="menuSelected">' . $title . '</span>';
 			}
 

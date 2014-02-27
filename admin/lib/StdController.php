@@ -49,7 +49,8 @@ class StdController extends Controller {
 		}
 		if (!in_array($id, $fixed)) $this->model->delById($id);
 
-		return $this->app->redirect($_SESSION['listurl']);
+        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list');
+        return $this->app->redirect($url);
 	}
 
 	public function do_edit(\Admin\Request $request) {
@@ -101,6 +102,7 @@ class StdController extends Controller {
 		if ($form['id']) $this->model->saveFromForm($form);
 		else $this->model->addFromForm($form);
 
-		return $this->app->redirect($_SESSION['listurl']);
+        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list');
+        return $this->app->redirect($url);
 	}
 }

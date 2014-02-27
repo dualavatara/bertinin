@@ -75,13 +75,4 @@ abstract class Template {
 			echo '<a href="'.$_REQUEST['from_route'].'">[К родителю]</a>';
 		}
 	}
-	public function listLink() {
-		/*if ($_SESSION['listurl']) {
-            $this->showLink('[Список]','setting_add');
-			echo '<a href="'.$_SESSION['listurl'].'">[Список]</a>';
-		}*/
-	}
-    public function addLink() {
-
-    }
 }

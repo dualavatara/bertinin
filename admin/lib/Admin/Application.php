@@ -26,7 +26,7 @@ class Application extends Container {
 
 	private $routesArr;
 
-    public $path;
+    public $name;
 
 	/**
 	 * Constructor.
@@ -144,15 +144,15 @@ class Application extends Container {
 	 */
 	public function handle($uri) {
 		// Get only path part from URI
-        $this->path = parse_url($uri, PHP_URL_PATH);
+        $path = parse_url($uri, PHP_URL_PATH);
 
         //var_dump($this->routes);
 		foreach ($this->routes as $name => $route) {
-			if (false !== ($params = $route->match($this->path))) {
+			if (false !== ($params = $route->match($path))) {
 				// Fire request event
 				$event = new Event(
 					Event::REQUEST,
-					array('route' => $name, 'url' => $this->path)
+					array('route' => $name, 'url' => $path)
 				);
                 //var_dump($name, $route, $path);
 				$results = $this['dispatcher']->fire($event);
@@ -163,7 +163,8 @@ class Application extends Container {
 						return $result;
 					}
 				}
-				
+
+                $this->name = $name;
 				// Else run conroller
                 $callback = $this->routes->getCallback($name);
                 $request = Request::createFromGlobals($params);
@@ -207,10 +208,7 @@ class Application extends Container {
 	}
 
     public function getRouteName($path) {
-        foreach($this->routes as $routename => $route){
-            if ($route->getPath() == $path) return $routename;
-        }
-        return null;
+        return $this->name;
     }
 
 	/**

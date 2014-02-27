@@ -15,7 +15,7 @@ class SectionsMenuTemplate extends Template {
 		$sectionTitle = '';
 		$sections = array();
         $routename = $this->app->getRouteName($this->app->path);
-		$menuItem = $config->getMenuItem($routename);
+		$menuItem = $config->getMenuItem($routename)[1];
 
 		if ($menuItem) foreach ($menuItem['sections'] as $name => $sectionItem) {
             if($this->app['user']->checkRoute($sectionItem['route'])) {

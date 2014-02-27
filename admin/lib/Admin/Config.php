@@ -77,9 +77,10 @@ class Config extends \stdClass implements \IteratorAggregate, \ArrayAccess {
 	}
 
     public function getMenuItem($routename) {
-        foreach($this['menu'] as $menuitem) {
-            foreach($menuitem['sections'] as $section) {
-                if ($section['route'] == $routename) return $menuitem;
+        $class = $this['routes'][$routename][1];
+        foreach($this['menu'] as $menuitemkey => $menuitem) {
+            foreach($menuitem['sections'] as $key =>$section) {
+                if ($key == $class) return array($menuitemkey, $menuitem);
             }
         }
         return null;
