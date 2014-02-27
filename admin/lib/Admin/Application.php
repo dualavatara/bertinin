@@ -8,6 +8,8 @@ $loader = new ClassLoader();
 $loader->registerNamespace('\Admin', __DIR__ . '/..');
 $loader->registerNamespace('\ctl', __DIR__ . '/../..');
 $loader->registerNamespace('\model', __DIR__ . '/../..');
+$loader->registerNamespace('\Form', __DIR__ . '/../../tpl');
+$loader->registerNamespace('\Lists', __DIR__ . '/../../tpl');
 $loader->register();
 
 class Application extends Container {
@@ -23,6 +25,8 @@ class Application extends Container {
 	private $routes;
 
 	private $routesArr;
+
+    public $path;
 
 	/**
 	 * Constructor.
@@ -110,7 +114,7 @@ class Application extends Container {
 		$route = new Route($path, $defaults);
 		$callback = function($request) use ($app, $controller, $route) {
 			$controller = '\\ctl\\' . $controller;
-			$ctl = new $controller($app, $route);
+			$ctl = new $controller($app);
 			if (!($ctl instanceof Controller)) {
 				throw new \UnexpectedValueException($controller . ' is not a controller');
 			}
@@ -140,15 +144,15 @@ class Application extends Container {
 	 */
 	public function handle($uri) {
 		// Get only path part from URI
-		$path = parse_url($uri, PHP_URL_PATH);
+        $this->path = parse_url($uri, PHP_URL_PATH);
 
         //var_dump($this->routes);
 		foreach ($this->routes as $name => $route) {
-			if (false !== ($params = $route->match($path))) {
+			if (false !== ($params = $route->match($this->path))) {
 				// Fire request event
 				$event = new Event(
 					Event::REQUEST,
-					array('route' => $name, 'url' => $path)
+					array('route' => $name, 'url' => $this->path)
 				);
                 //var_dump($name, $route, $path);
 				$results = $this['dispatcher']->fire($event);
@@ -201,6 +205,13 @@ class Application extends Container {
 
 		return $route->getUrl($params);
 	}
+
+    public function getRouteName($path) {
+        foreach($this->routes as $routename => $route){
+            if ($route->getPath() == $path) return $routename;
+        }
+        return null;
+    }
 
 	/**
 	 * Returns response that redirects user to the specified url.

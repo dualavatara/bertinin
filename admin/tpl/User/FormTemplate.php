@@ -15,10 +15,11 @@ class FormTemplate extends Template {
 		$user = $data['model'];
 		?>
     <script type="text/javascript">
-    		$(function(){
-    			AdminJS.initTabs('#tabs');
-    		});
-    </script>
+            $(function(){
+                AdminJS.initTabs('#tabs');
+            });
+        </script>
+
 	<div class="submenubar">
         <a href="<?php echo $this->getUrl('user_list') ?>">[Список]</a>
 		<a href="<?php echo $this->getUrl('user_add') ?>">[Добавить]</a>
@@ -74,7 +75,7 @@ class FormTemplate extends Template {
 	                        <input type="checkbox" id="allcheck_<?php echo $i;?>_<?php echo $k;?>"
 								   name="form[routes][<?php echo $route_name; ?>]"
 								   onchange="checkParent('allcheck\\_<?php echo $i;?>');checkParent('allcheck');"
-								<?php if(in_array($route_name, $data['access']->getRaw())) echo 'checked';  ?>
+								<?php if(isset($data['access']) && in_array($route_name, $data['access']->getRaw())) echo 'checked';  ?>
 								<?php echo $dis;?>
 								/>
 							<?php if ($dis) { ?>

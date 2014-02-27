@@ -14,7 +14,7 @@ class ListTemplate extends Template {
 	protected function show($data, $content = null) {
 		?>
 	<div class="submenubar">
-        <?php $this->listLink();?>
+        <?php //$this->showLink('[Список]','setting_list')?>
         <?php $this->showLink('[Добавить]','setting_add')?>
 	</div>
 	<table class="list">
@@ -23,6 +23,11 @@ class ListTemplate extends Template {
 			<th>Опция</th>
 			<th>Переменная</th>
 			<th>Значение</th>
+            <?php
+            foreach($this->fields as $field) {
+                $field->show($data, $content);
+            };
+            ?>
 			<th width="1%">&nbsp;</th>
 		</tr>
 		<?php foreach ($data['model']->getModel() as $i => $item): ?>

@@ -48,7 +48,8 @@ class RouteCollection implements \Iterator, \Countable {
 	public function getRoute($name) {
 		return $this->routes[$name][0];
 	}
-	
+
+
 	/**
 	 * Gets callback for the specified name.
 	 * 

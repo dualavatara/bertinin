@@ -10,20 +10,35 @@ abstract class Template {
 	 * @var \Admin\Application
 	 */
 	protected $app;
-	private $parent;
+    /**
+     * @var Template[]
+     */
+    protected $fields;
+    /**
+     * @var string
+     */
+    protected $section;
+    private $parent;
 
 	public function __construct(\Admin\Application $app) {
 		$this->app = $app;
 	}
-	
-	protected function setParent($parent) {
+
+    /**
+     * @param $fields
+     */
+    public function setFields($fields) {
+        $this->fields = $fields;
+    }
+
+    protected function setParent($parent) {
 		$this->parent = $parent;
 	}
 	
 	final public function render($data, $content = null) {
 		$escaper = new HtmlEscaper();
-		if ($data['model'] && isset($data['model']->noEscape) && $data['model']->noEscape) {}
-		else $data = $escaper->escape($data);
+		/*if ($data['model'] && isset($data['model']->noEscape) && $data['model']->noEscape) {}
+		else $data = $escaper->escape($data);*/
 		
 		ob_start();
 		$this->show($data, $content);
@@ -61,8 +76,12 @@ abstract class Template {
 		}
 	}
 	public function listLink() {
-		if ($_SESSION['listurl']) {
+		/*if ($_SESSION['listurl']) {
+            $this->showLink('[Список]','setting_add');
 			echo '<a href="'.$_SESSION['listurl'].'">[Список]</a>';
-		}
+		}*/
 	}
+    public function addLink() {
+
+    }
 }

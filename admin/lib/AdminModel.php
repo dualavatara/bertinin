@@ -8,118 +8,7 @@
 require_once '../admin/lib/IAdminModel.php';
 require_once '../lib/filter.lib.php';
 
-interface IChildParams {
-	/**
-	 * @abstract
-	 * @param AdminField $adminField
-	 * @param ModelDataWrapper $row
-	 * @return array
-	 */
-	public function getParams(AdminField $adminField, ModelDataWrapper $row);
-
-	/**
-	 * @abstract
-	 * @return ISqlFilter
-	 */
-	public function getFilter();
-
-	/**
-	 * @abstract
-	 * @param array $request
-	 * @return mixed
-	 */
-	public function getRequestParams($request);
-}
-
-class ClassObjectChildParams implements \IChildParams {
-	private $classId;
-	private $classField;
-	private $objectId;
-	private $objectField;
-
-	function __construct($request) {
-		$this->classId = $request['class_id'];
-		$this->classField = $request['class_field'];
-		$this->objectId = $request['object_id'];
-		$this->objectField = $request['object_field'];
-	}
-
-	/**
-	 * @param AdminField $adminField
-	 * @param ModelDataWrapper $row
-	 * @return array
-	 */
-	public function getParams(\AdminField $adminField, \ModelDataWrapper $row) {
-		return array(
-			'class_id' => $this->classId,
-			'class_field' => $this->classField,
-			'object_id' => $row->id,
-			'object_field' => $this->objectField,
-		);
-	}
-
-	/**
-	 * @return ISqlFilter
-	 */
-	public function getFilter() {
-		$filter = new \FieldValueSqlFilter();
-		$filter->eq($this->classField, $this->classId)->_and()->eq($this->objectField, $this->objectId);
-		return $filter;
-	}
-
-	/**
-	 * @param array $request
-	 * @return mixed
-	 */
-	public function getRequestParams($request) {
-		return array(
-			'class_id' => $request['class_id'],
-			'class_field' => $request['class_field'],
-			'object_id' => $request['object_id'],
-			'object_field' => $request['object_field'],
-		);
-	}
-}
-
-class ParentChildParams implements \IChildParams {
-	private $parentId;
-	private $parentField;
-
-	function __construct($request) {
-		$this->parentField = $request['parent_field'];
-		$this->parentId = isset($request['parent_id']) ? $request['parent_id'] : 0;
-	}
-
-	/**
-	 * @param AdminField $adminField
-	 * @param ModelDataWrapper $row
-	 * @return array
-	 */
-	public function getParams(\AdminField $adminField, \ModelDataWrapper $row) {
-		return array(
-			'parent_id' => $row->id, 'parent_field' => $this->parentField,
-		);
-	}
-
-	/**
-	 * @return ISqlFilter
-	 */
-	public function getFilter() {
-		$filter = new \FieldValueSqlFilter();
-		$filter->eq($this->parentField, $this->parentId);
-		return $filter;
-	}
-
-	/**
-	 * @param array $request
-	 * @return mixed
-	 */
-	public function getRequestParams($request) {
-		return array(
-			'parent_id' => $request['parent_id'], 'parent_field' => $request['parent_field'],
-		);
-	}
-}
+use Admin\Extension\Template\Template;
 
 abstract class AdminModel implements IAdminModel {
 	/**
@@ -127,29 +16,31 @@ abstract class AdminModel implements IAdminModel {
 	 */
 	private $model;
 	/**
-	 * @var array
+	 * @var Template[]
 	 */
-	public $fields;
+	private $fields = array();
 
 	public $childParamsClass;
+
+    protected $app;
 
 	/**
 	 * @param Model $model
 	 */
-	public function __construct(Model $model, $childParamsClass = null) {
+	public function __construct(\Admin\Application $app, Model $model, $childParamsClass = null) {
 		$this->model = $model;
 		$this->childParamsClass = $childParamsClass;
+        $this->app = $app;
 	}
+
+    public function addField(Template $formfield,  $listfield) {
+        $this->fields[] = array('formfield' => $formfield, 'listfield' => $listfield);
+    }
+
+    public function getFields() { return $this->fields; }
 
 	public function onSave($form) {
 
-	}
-
-	function setTemplate($template) {
-		foreach ($this->fields as $field) {
-			$field->template = $template;
-			$field->adminModel = $this;
-		}
 	}
 
 	/**

@@ -20,7 +20,7 @@ use Admin\Extension\Template\Template;
  * );
  * 
  * Styling:
- * - List has 'relation-list' class hardcoded
+ * - Lists has 'relation-list' class hardcoded
  */
 class RelationField extends Template {
 

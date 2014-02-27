@@ -46,9 +46,20 @@ return array(
         'setting_list' => array('/setting/list', 'Setting', 'list'),
         'setting_save' => array('/setting/save', 'Setting', 'save'),
         'setting_add' => array('/setting/add', 'Setting', 'add'),
+
+        'photo_edit' => array('/photo/edit/{id}', 'Photo', 'edit'),
+        'photo_delete' => array('/photo/delete/{id}', 'Photo', 'delete'),
+        'photo_list' => array('/photo/list', 'Photo', 'list'),
+        'photo_save' => array('/photo/save', 'Photo', 'save'),
+        'photo_add' => array('/photo/add', 'Photo', 'add'),
 	),
 
 	'menu' => array(
+        'content' => array(
+            'title' => 'Фотографии', 'sections' => array(
+                'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
+            )
+        ),
 		'sys' => array(
 			'title' => 'Системные', 'sections' => array(
 				'User' => array('title' => 'Пользователи', 'route' => 'user_list', 'params' => array()),

@@ -8,17 +8,6 @@ require_once 'lib/logger.lib.php';
 
 JBFWClassLoader::addException('/admin/i');
 
-/*
-set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-		if ($errno == E_ERROR || $errno == E_USER_ERROR) {
-			header('HTTP/1.1 500 Internal Server Error');
-		}
-		Logger::obj()->nativeLog($errno, $errstr);
-		return true;
-}, E_ALL + E_STRICT);
-
-try {*/
-
 session_start();
 if (isset($_SESSION['user']) and in_array('closed_index',$_SESSION['routes'])) {
     function vardump($obj) {
@@ -51,9 +40,4 @@ try {
     require('static/html/maitenance.html');
     return;
 }
-
-/*} catch (Exception $e) {
-	header('HTTP/1.1 500 Internal Server Error');
-	Logger::obj()->error($e->getMessage());
-}*/
 ?>

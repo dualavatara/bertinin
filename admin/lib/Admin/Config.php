@@ -75,4 +75,13 @@ class Config extends \stdClass implements \IteratorAggregate, \ArrayAccess {
 	public function offsetUnset($offset) {
 		unset($this->config[$offset]);
 	}
+
+    public function getMenuItem($routename) {
+        foreach($this['menu'] as $menuitem) {
+            foreach($menuitem['sections'] as $section) {
+                if ($section['route'] == $routename) return $menuitem;
+            }
+        }
+        return null;
+    }
 }

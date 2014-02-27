@@ -34,6 +34,13 @@ class Route {
 		$this->defaults = $defaults;
 	}
 
+    /**
+     * @return string
+     */
+    public function getPath() {
+        return $this->path;
+    }
+
 	public function getMenu() {
 		if (isset($this->defaults['menu'])) return $this->defaults['menu'];
 		return null;

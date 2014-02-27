@@ -22,6 +22,7 @@ class Settings extends Singletone {
      */
     public function __construct() {
         $this->model = DIContainer::obj()->SettingModel();
+        $this->model->get()->all()->exec();
     }
 
     /**
@@ -46,9 +47,6 @@ class SettingModel extends Model {
 		$this->field(new CharField('name'));
 		$this->field(new CharField('varname'));
 		$this->field(new Charfield('value',Field::STRIP_SLASHES));
-
-        //Load all settings on construction
-        $this->get()->all()->exec();
 	}
 
     /**
