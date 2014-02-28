@@ -46,8 +46,8 @@ class ListTemplate extends Template {
                     ?>
                 </td>
 				<td>
-                    <?php $this->showLink('&nbsp;X&nbsp;','user_delete', array('id' => $item->id),
-                                       'onClick="return AdminJS.deleteConfirmation();"');?>
+                    &nbsp;
+                </td>
 			</tr>
 		<?php endforeach; ?>
 	</table>
