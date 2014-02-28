@@ -114,4 +114,8 @@ class Route {
 
 		return $url;
 	}
+
+    public function getParams($url) {
+
+    }
 }

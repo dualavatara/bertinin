@@ -68,6 +68,10 @@ class Config extends \stdClass implements \IteratorAggregate, \ArrayAccess {
 				: $value;
 	}
 
+    public function in_array($needle) {
+        return in_array($needle, $this->config);
+    }
+
 	public function offsetSet($offset, $value) {
 		$this->config[$offset] = $value;
 	}

@@ -9,6 +9,8 @@ return array(
 
 	'dataPath' => '../' . PATH_DATA,
 
+    'logactions' => array('delete', 'save'),
+
 	/* Extension's options start */
 	'db.options' => array(
 		//		'host' => DB_HOST,
@@ -47,6 +49,8 @@ return array(
         'setting_save' => array('/setting/save', 'Setting', 'save'),
         'setting_add' => array('/setting/add', 'Setting', 'add'),
 
+        'logs_list' => array('/logs/list', 'Logs', 'list'),
+
         'photo_edit' => array('/photo/edit/{id}', 'Photo', 'edit'),
         'photo_delete' => array('/photo/delete/{id}', 'Photo', 'delete'),
         'photo_list' => array('/photo/list', 'Photo', 'list'),
@@ -64,6 +68,7 @@ return array(
 			'title' => 'Системные', 'sections' => array(
 				'User' => array('title' => 'Пользователи', 'route' => 'user_list', 'params' => array()),
 				'Settings' => array('title' => 'Настройки сайта', 'route' => 'setting_list', 'params' => array()),
+				'Logs' => array('title' => 'Логи', 'route' => 'logs_list', 'params' => array()),
 			)
 		),
 		'logout' => array(
