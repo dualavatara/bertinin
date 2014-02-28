@@ -67,7 +67,7 @@ return array(
 		'sys' => array(
 			'title' => 'Системные', 'sections' => array(
 				'User' => array('title' => 'Пользователи', 'route' => 'user_list', 'params' => array()),
-				'Settings' => array('title' => 'Настройки сайта', 'route' => 'setting_list', 'params' => array()),
+				'Setting' => array('title' => 'Настройки сайта', 'route' => 'setting_list', 'params' => array()),
 				'Logs' => array('title' => 'Логи', 'route' => 'logs_list', 'params' => array()),
 			)
 		),
