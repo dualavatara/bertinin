@@ -83,6 +83,17 @@ CREATE TABLE `settings` (
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+CREATE TABLE `admin_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ts` datetime DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `class` varchar(64) DEFAULT NULL,
+  `action` varchar(45) DEFAULT NULL,
+  `form` text,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 --
 -- Dumping data for table `settings`
 --

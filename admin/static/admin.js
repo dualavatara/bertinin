@@ -273,3 +273,10 @@ function makeDropbox(cont, data) {
         $(edit).change();
     });
 }
+
+function toggle(divid, aid, aidtxt) {
+    $('#' + divid).toggle();
+    aelm = $('#' + aid);
+    if (aelm.text() == aidtxt[0]) aelm.text(aidtxt[1]);
+    else aelm.text(aidtxt[0]);
+}

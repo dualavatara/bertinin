@@ -2,6 +2,7 @@
 
 namespace Admin\Extension\Security;
 
+require_once 'model\adminlogs.model.php';
 /**
  * Depends on Session extension.
  */
@@ -35,8 +36,27 @@ class SecurityExtension implements \Admin\ExtensionInterface {
 			throw new \InvalidArgumentException('Required options of SecurityExtension are not defined.');
 		}
 
+
 		$data = $event->getData();
         //$this->app['session']->remove('user');//принудительный логаут
+
+        //Logging user requests
+        $logroute = $config['routes'][$data['route']];
+        $msg = 'Class: ' . $logroute[1] . ', action: ' . $logroute[2];
+        $logactions = $config['logactions'];
+
+        if ($logactions->in_array($logroute[2])) {
+            $logmodel = new \AdminLogsModel($this->app['db']);
+            $form = isset($_REQUEST['form']) ? serialize($_REQUEST['form']) : '';
+            $logmodel[0] = array('ts' => \DateTimeWithTZField::fromTimestamp(time()),
+                'user_id' =>$this->app['user']->id,
+                'class' => $logroute[1],
+                'action' => $logroute[2],
+                'form' => $form,
+                'url' => $data['url']
+            );
+            $logmodel->insert()->exec();
+        }
 		if (
 			$data['route'] != $options['login_route'] && // If user is not on login page
 			!$this->app['user']->isAuthenticated()       // and not logged in
