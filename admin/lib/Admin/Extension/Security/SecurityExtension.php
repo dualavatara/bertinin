@@ -2,7 +2,7 @@
 
 namespace Admin\Extension\Security;
 
-require_once 'model\adminlogs.model.php';
+require_once 'model/adminlogs.model.php';
 /**
  * Depends on Session extension.
  */
