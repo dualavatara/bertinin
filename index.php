@@ -22,7 +22,7 @@ else {
 	$di = new DIContainer();
 	$disp = $di->Dispatcher();
 try {
-    if (Settings::obj()->value('maitenance')) {
+    if (Settings::obj()->value('maitenance') && !isset($_SESSION['user'])) {
         require('static/html/maitenance.html');
         return;
     }
