@@ -20,16 +20,13 @@ abstract class AdminModel implements IAdminModel {
 	 */
 	private $fields = array();
 
-	public $childParamsClass;
-
     protected $app;
 
 	/**
 	 * @param Model $model
 	 */
-	public function __construct(\Admin\Application $app, Model $model, $childParamsClass = null) {
+	public function __construct(\Admin\Application $app, Model $model) {
 		$this->model = $model;
-		$this->childParamsClass = $childParamsClass;
         $this->app = $app;
 	}
 
@@ -39,23 +36,13 @@ abstract class AdminModel implements IAdminModel {
 
     public function getFields() { return $this->fields; }
 
-	public function onSave($form) {
-
-	}
+	public function onSave($form) {}
 
 	/**
 	 * Select all object`s rows from database
 	 */
-	public function getAll() {
-		$this->model->get()->all()->exec();
-	}
-
-	public function getFiltered($request) {
-		if (isset($this->childParamsClass)) {
-			$class = $this->childParamsClass;
-			$params = new $class($request);
-			$this->getModel()->get()->filter($params->getFilter())->exec();
-		} else $this->getModel()->get()->all()->exec();
+	public function onList($request) {
+		$this->getModel()->get()->all()->exec();
 	}
 
 	/**

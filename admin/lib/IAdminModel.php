@@ -6,11 +6,6 @@
  */
 interface IAdminModel {
 	/**
-	 * Select all object`s rows from database
-	 */
-	public function getAll();
-
-	/**
 	 * Adds new object record into database
 	 * @param string $name
 	 * @param string $sign

@@ -68,13 +68,7 @@ class StdController extends Controller {
 
 	public function do_list(\Admin\Request $request = null) {
         $this->model->getModel()->fUseInQuery = true;
-		$this->model->getFiltered($request);
-        //var_dump($this->model);
-		$class = $this->model->childParamsClass;
-		if ($class) {
-			$params = new $class($request);
-			$_SESSION['urlparams'] = $params->getRequestParams($request);
-		}
+		$this->model->onList($request);
 
 		$this->data['model'] = $this->model;
         $this->model->getModel()->fUseInQuery = false;
