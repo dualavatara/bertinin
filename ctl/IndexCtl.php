@@ -7,6 +7,8 @@
 
 namespace Ctl;
 
+use View\Page4040View;
+
 class IndexCtl extends BaseCtl {
 
 	public function main() {
@@ -23,4 +25,10 @@ class IndexCtl extends BaseCtl {
         \Session::obj()->lang = strtolower( ltrim($_SERVER['REQUEST_URI'],'/') );
         return $this->disp->redirect($this->disp->getReferer());
 	}
+
+    public function page404() {
+        $view = new Page4040View();
+        $view->navmodel = $this->navmodel;
+        return $view;
+    }
 }

@@ -32,7 +32,7 @@ try {
         }
         catch (\NotFoundException $e) {
             header('HTTP/1.1 404 Not Found');
-            $_SERVER['REQUEST_URI'] = Settings::obj()->get()->get404();
+            $_SERVER['REQUEST_URI'] = Settings::obj()->value('page404');
             $disp->main();
         }
     }

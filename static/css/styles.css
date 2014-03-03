@@ -30,16 +30,9 @@ aside nav a {
     line-height: 18pt;
 }
 
-/*aside nav a:hover{*/
-    /*text-decoration: none;*/
-    /*color: black;*/
-    /*font-size: 16pt;*/
-/*}*/
-
-header, main, footer {
+#mainarea {
     width: 570px;
     margin-left: 230px;
-    padding: 2pt 4pt;
     background-color: #eeeeee;
 }
 
@@ -50,12 +43,14 @@ header {
 
 header #phone {
     font-size: 20pt;
+    padding: 14pt 14pt 0 0;
 }
 
 header #email a{
     font-size: 10pt;
     color: #666666;
     text-decoration: none;
+    padding: 0pt 14pt 0 0;
 }
 
 header #email a:hover {
@@ -64,11 +59,14 @@ header #email a:hover {
 
 main {
     min-height: 30em;
+    padding-left: 35px;
+    padding-right: 10px;
 }
 
 footer {
     text-align: right;
     color: #666666;
+    min-height: 75px;
 }
 
 footer #img {

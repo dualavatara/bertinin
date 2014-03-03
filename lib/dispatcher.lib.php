@@ -43,7 +43,7 @@ interface IDispatcher {
 class Dispatcher implements IDispatcher {
 
 	/**
-	 * @var array
+	 * @var RequestHandler[]
 	 */
 	private $classes;
 

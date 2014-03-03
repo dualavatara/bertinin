@@ -26,15 +26,15 @@ class BaseView implements IView {
      *
      */
     public function start() {
-		ob_start();
-	}
+        ob_start();
+    }
 
     /**
      *
      */
     public function end() {
-		$this->content = ob_get_clean();
-	}
+        $this->content = ob_get_clean();
+    }
 
     /**
      * @param null $content
@@ -42,7 +42,7 @@ class BaseView implements IView {
      */
     public function show($content = null) {
         $this->start();
-?>
+        ?>
         <!DOCTYPE html>
         <html>
         <head>
@@ -56,7 +56,7 @@ class BaseView implements IView {
         </head>
         <body>
         <aside>
-            <img src="/static/img/logo.png">
+            <a href="/"><img src="/static/img/logo.png"></a>
             <nav>
                 <script language="JavaScript">
                     $(document).ready(function () {
@@ -68,9 +68,11 @@ class BaseView implements IView {
                                     $(this).prev().children("a").animate({color: "#444444", fontSize: "13pt"}, 100);
                                     $(this).prev().prev().children("a").animate({color: "#666666", fontSize: "12pt"}, 100);
                                 },
-                                function () {}
+                                function () {
+                                }
                             )
-                            $("nav").hover(function(){},
+                            $("nav").hover(function () {
+                                },
                                 function () { //exit hover
                                     $(this).find("a").animate({ color: "#666666", fontSize: "12pt"}, 100);
                                 }
@@ -79,37 +81,40 @@ class BaseView implements IView {
                     );
                 </script>
                 <?php
-                foreach($this->navmodel as $object) {
+                foreach ($this->navmodel as $object) {
                     ?>
                     <div>
-                        <a href="<?php echo $object->url?>" target="<?php echo $object->target; ?>">
+                        <a href="<?php echo $object->url ?>" target="<?php echo $object->target; ?>">
                             <?php echo $object->name; ?>
                         </a>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
             </nav>
         </aside>
-        <header>
-            <div id="phone"><?php echo \Settings::obj()->value('phone'); ?></div>
-            <div id="email">
-                <a href="mailto:<?php echo \Settings::obj()->value('email'); ?>"><?php echo \Settings::obj()->value('email'); ?></a>
-            </div>
-        </header>
-        <main><?php echo $this->content; ?></main>
-        <footer>
-            <img id="img" src="/static/img/footer.png">
-            <div id="copyright">
-                ©2014 Константин Бертинин
-            </div>
+        <div id="mainarea">
+            <header>
+                <div id="phone"><?php echo \Settings::obj()->value('phone'); ?></div>
+                <div id="email">
+                    <a href="mailto:<?php echo \Settings::obj()->value('email'); ?>"><?php echo \Settings::obj()->value('email'); ?></a>
+                </div>
+            </header>
+            <main><?php echo $this->content; ?></main>
+            <footer>
+                <img id="img" src="/static/img/footer.png">
 
-        </footer>
+                <div id="copyright">
+                    ©2014 Константин Бертинин
+                </div>
+
+            </footer>
+        </div>
         </body>
         </html>
-<?php
+        <?php
         $this->end();
-		return $this->content;
-	}
+        return $this->content;
+    }
 
 }

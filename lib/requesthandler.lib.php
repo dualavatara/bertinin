@@ -318,9 +318,6 @@ abstract class RequestHandler {
 		$matched = false;
 		foreach($this->matchers as $matcher) {
 
-            //var_dump($matcher);
-            //var_dump($value);
-
 			if ($matched = $matcher->match($value)) {
 				if ($matched['session'] && $matched['session'] instanceof Session) {
 					$this->dispatcher->setSession($matched['session']);
