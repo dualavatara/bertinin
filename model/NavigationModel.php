@@ -11,7 +11,10 @@ class NavigationModel extends Model {
         parent::__construct("navigation", $db);
 
         $this->field(new IntField('ord'));
+        $this->field(new IntField('parent_id'));
         $this->field(new CharField('name'));
         $this->field(new CharField('url'));
+        $this->field(new CharField('target'));
+        $this->field(new FlagsField('flags'));
     }
 }

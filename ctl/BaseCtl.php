@@ -8,8 +8,10 @@
 namespace Ctl;
 
 require_once 'lib/exception.lib.php';
+require_once 'model/NavigationModel.php';
 
 abstract class BaseCtl {
+    protected $navmodel;
 	/**
 	 * @var \IDispatcher
 	 */
@@ -17,5 +19,7 @@ abstract class BaseCtl {
 
 	function __construct(\IDispatcher $disp) {
 		$this->disp = $disp;
+        $this->navmodel = new \NavigationModel($this->disp->di()->PDODatabase());
+        $this->navmodel->get()->all()->order('ord', 1)->exec();
 	}
 }

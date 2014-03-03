@@ -15,6 +15,7 @@ class IndexCtl extends BaseCtl {
             echo $this->setLang();
 
 		$view = $this->disp->di()->IndexView();
+        $view->navmodel = $this->navmodel;
 		return $view;
 	}
 

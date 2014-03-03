@@ -7,25 +7,49 @@
 
 namespace View;
 
+/**
+ * Class BaseView
+ * @package View
+ */
 class BaseView implements IView {
-	public $content;
+    /**
+     * @var
+     */
+    public $content;
 
-	public function start() {
+    /**
+     * @var NavigationModel
+     */
+    public $navmodel;
+
+    /**
+     *
+     */
+    public function start() {
 		ob_start();
 	}
 
-	public function end() {
+    /**
+     *
+     */
+    public function end() {
 		$this->content = ob_get_clean();
 	}
 
-	public function show($content = null) {
+    /**
+     * @param null $content
+     * @return mixed
+     */
+    public function show($content = null) {
         $this->start();
 ?>
         <!DOCTYPE html>
         <html>
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-            <title></title>
+            <title>
+                <?php echo \Settings::obj()->value('title'); ?>
+            </title>
             <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
             <script src="/static/js/jquery-2.1.0.js" language="JavaScript"></script>
             <script src="/static/js/jquery-ui-1.10.4.custom.js" language="JavaScript"></script>
@@ -54,33 +78,23 @@ class BaseView implements IView {
                         }
                     );
                 </script>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
-                <div>
-                    <a href="#">О студии</a>
-                </div>
+                <?php
+                foreach($this->navmodel as $object) {
+                    ?>
+                    <div>
+                        <a href="<?php echo $object->url?>" target="<?php echo $object->target; ?>">
+                            <?php echo $object->name; ?>
+                        </a>
+                    </div>
+                    <?php
+                }
+                ?>
             </nav>
         </aside>
         <header>
-            <div id="phone">+7 903 628 40 24</div>
+            <div id="phone"><?php echo \Settings::obj()->value('phone'); ?></div>
             <div id="email">
-                <a href="mailto:info@bertinin.ru">info@bertinin.ru</a>
+                <a href="mailto:<?php echo \Settings::obj()->value('email'); ?>"><?php echo \Settings::obj()->value('email'); ?></a>
             </div>
         </header>
         <main><?php echo $this->content; ?></main>

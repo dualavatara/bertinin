@@ -25,7 +25,7 @@ class Photo extends \AdminModel {
         $this->addField(new \Form\EditField($this->app, 'imgtn', 'Предпросмотр', 50),
             new EditLinkField($this->app, 'imgtn', 'Предпросмотр', 'photo'));
         $this->addField(new \Form\EditField($this->app, 'alt', 'Всплывающий текст', 50),
-            new EditLinkField($this->app, 'alt', 'Всплывающий текст', 'photo'));
+            new PlaintextField($this->app, 'alt', 'Всплывающий текст', 'photo'));
     }
 
 } 
