@@ -9,12 +9,12 @@ namespace View;
 
 class IndexView extends BaseView {
 
-	public function show() {
+	public function show($content = null) {
 		$this->start();
         ?>
             TEST
         <?
 		$this->end();
-		return $this->content;
+		return parent::show($this->content);
 	}
 }

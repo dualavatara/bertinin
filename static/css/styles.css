@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'PragmaticaLightCTT';
+    src: url('../fonts/PragmaticaLightC.eot');
+    src: url('../fonts/PragmaticaLightC.woff') format('woff'), url('../fonts/PragmaticaLightC.ttf') format('truetype'), url('../fonts/PragmaticaLightC.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    width: 800px;
+    margin: 0px auto;
+    background-color: #d9dadc;
+    font-family: "PragmaticaLightCTT";
+}
+
+aside {
+    float: left;
+    width: 230px;
+    text-align: right;
+}
+
+aside nav {
+    margin-top: 50px;
+    margin-right: 35px;
+}
+
+aside nav a {
+    text-decoration: none;
+    color: #666666;
+    line-height: 18pt;
+}
+
+/*aside nav a:hover{*/
+    /*text-decoration: none;*/
+    /*color: black;*/
+    /*font-size: 16pt;*/
+/*}*/
+
+header, main, footer {
+    width: 570px;
+    margin-left: 230px;
+    padding: 2pt 4pt;
+    background-color: #eeeeee;
+}
+
+header {
+    text-align: right;
+    color: #666666;
+}
+
+header #phone {
+    font-size: 20pt;
+}
+
+header #email a{
+    font-size: 10pt;
+    color: #666666;
+    text-decoration: none;
+}
+
+header #email a:hover {
+    text-decoration: underline;
+}
+
+main {
+    min-height: 30em;
+}
+
+footer {
+    text-align: right;
+    color: #666666;
+}
+
+footer #img {
+    margin: 0px 15px 8px 0px;
+}
+
+footer #copyright {
+    margin-top: -38px;
+    margin-bottom: 18px;
+    margin-right: 45px;
+}

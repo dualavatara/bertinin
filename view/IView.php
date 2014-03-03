@@ -8,5 +8,5 @@
 namespace View;
 
 interface IView {
-	public function show();
+	public function show($content = null);
 }

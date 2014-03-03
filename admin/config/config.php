@@ -56,11 +56,18 @@ return array(
         'photo_list' => array('/photo/list', 'Photo', 'list'),
         'photo_save' => array('/photo/save', 'Photo', 'save'),
         'photo_add' => array('/photo/add', 'Photo', 'add'),
+
+        'navigation_edit' => array('/navigation/edit/{id}', 'Navigation', 'edit'),
+        'navigation_delete' => array('/navigation/delete/{id}', 'Navigation', 'delete'),
+        'navigation_list' => array('/navigation/list', 'Navigation', 'list'),
+        'navigation_save' => array('/navigation/save', 'Navigation', 'save'),
+        'navigation_add' => array('/navigation/add', 'Navigation', 'add'),
 	),
 
 	'menu' => array(
         'content' => array(
-            'title' => 'Фотографии', 'sections' => array(
+            'title' => 'Контент', 'sections' => array(
+                'Navigation' => array('title' => 'Разделы', 'route' => 'navigation_list', 'params' => array()),
                 'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
             )
         ),
