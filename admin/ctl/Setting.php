@@ -1,9 +1,9 @@
 <?php
 namespace ctl;
 
-require_once 'admin/lib/StdController.php';
+use Admin\StdController;
 
-class Setting extends \Admin\StdController {
+class Setting extends StdController {
 	public function __construct(\Admin\Application $app) {
 		parent::__construct($app, new \model\Setting($app));
 	}
