@@ -18,13 +18,13 @@ class Photo extends \AdminModel {
     public function __construct(\Admin\Application $app) {
         parent::__construct($app, new \PhotoModel($app['db']));
 
-        $this->addField(new \Form\EditField($this->app, 'parent_id', 'Родитель', 50),
+        $this->addField(new \Form\EditField($this->app, 'parent_id', 'Родитель', 'photo', 50),
             new EditLinkField($this->app, 'parent_id', 'Родитель', 'photo'));
-        $this->addField(new \Form\EditField($this->app, 'img', 'Изображение', 50),
+        $this->addField(new \Form\EditField($this->app, 'img', 'Изображение', 'photo', 50),
             new EditLinkField($this->app, 'img', 'Изображение', 'photo'));
-        $this->addField(new \Form\EditField($this->app, 'imgtn', 'Предпросмотр', 50),
+        $this->addField(new \Form\EditField($this->app, 'imgtn', 'Предпросмотр', 'photo', 50),
             new EditLinkField($this->app, 'imgtn', 'Предпросмотр', 'photo'));
-        $this->addField(new \Form\EditField($this->app, 'alt', 'Всплывающий текст', 50),
+        $this->addField(new \Form\EditField($this->app, 'alt', 'Всплывающий текст', 'photo', 50),
             new PlaintextField($this->app, 'alt', 'Всплывающий текст', 'photo'));
     }
 

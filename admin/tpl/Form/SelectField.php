@@ -20,8 +20,8 @@ class SelectField extends StdField {
 
     private $empty;
 
-    public function __construct(\Admin\Application $app, $name, $label, $values, $empty = false) {
-        parent::__construct($app, $name, $label);
+    public function __construct(\Admin\Application $app, $name, $label, $section, $values, $empty = false) {
+        parent::__construct($app, $name, $label, $section);
         $this->values = $values;
         $this->empty = $empty;
     }

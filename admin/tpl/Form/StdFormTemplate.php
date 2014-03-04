@@ -55,7 +55,7 @@ class StdFormTemplate extends Template {
                     <table>
                         <?php
                         foreach($this->fields as $field) {
-                            $field['formfield']->show($data, $content);
+                            if (isset($field['formfield'])) $field['formfield']->show($data, $content);
                         };
                             ?>
                     </table>

@@ -26,9 +26,10 @@ class EditField extends StdField {
      * @param $name
      * @param $label
      * @param $size
+     * @param $section
      */
-    public function __construct(\Admin\Application $app, $name, $label, $size) {
-        parent::__construct($app, $name, $label);
+    public function __construct(\Admin\Application $app, $name, $label, $section, $size) {
+        parent::__construct($app, $name, $label, $section);
         $this->size = $size;
     }
 

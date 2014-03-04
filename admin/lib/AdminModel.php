@@ -30,7 +30,7 @@ abstract class AdminModel implements IAdminModel {
         $this->app = $app;
 	}
 
-    public function addField(Template $formfield,  $listfield) {
+    public function addField($formfield,  $listfield) {
         $this->fields[] = array('formfield' => $formfield, 'listfield' => $listfield);
     }
 

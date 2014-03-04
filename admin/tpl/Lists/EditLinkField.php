@@ -11,14 +11,15 @@ namespace Lists;
 use Admin\Extension\Template\Template;
 use Form\StdField;
 
+/**
+ * Class EditLinkField
+ * @package Lists
+ */
 class EditLinkField extends StdField {
-    protected $section;
-
-    public function __construct(\Admin\Application $app, $name, $label, $section) {
-        parent::__construct($app, $name, $label);
-        $this->section = $section;
-    }
-
+    /**
+     * @param $data
+     * @param null $content
+     */
     protected function show($data, $content = null) {
         $value = '';
         $id = 0;
