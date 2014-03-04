@@ -41,7 +41,7 @@ abstract class AdminModel implements IAdminModel {
 	/**
 	 * Select all object`s rows from database
 	 */
-	public function onList($request) {
+	public function onList(\Admin\Request $request) {
 		$this->getModel()->get()->all()->exec();
 	}
 

@@ -339,11 +339,6 @@ class Model extends ModelData {
 	public function all() {return $this->filter(new AllSqlFilter());}
 
 	/**
-	 * @return FieldsSqlFilter
-	 */
-	public function filterFields() { return new FieldsSqlFilter(func_get_args()); }
-
-	/**
 	 * @return FieldValueSqlFilter
 	 */
 	public function filterExpr() { return new FieldValueSqlFilter(); }
