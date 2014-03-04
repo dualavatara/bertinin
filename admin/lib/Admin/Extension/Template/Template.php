@@ -54,7 +54,6 @@ abstract class Template {
 	abstract protected function show($data, $content = null);
 	
 	final public function getUrl($routeName, $params = array(), $noSessionParams = false) {
-	//	if (isset($_SESSION['urlparams']) && !$noSessionParams) $params = array_merge($params, $_SESSION['urlparams']);
 		return $this->app->getUrl($routeName, $params, true);
 	}
 

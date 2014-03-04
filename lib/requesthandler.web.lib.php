@@ -22,7 +22,6 @@ class WebRequestHandler extends RequestHandler implements IRequestHandler {
 	public function handle($requestUri) {
 
         $uri_arr = explode('&', $requestUri);
-        //var_dump($uri_arr);
 
         if( is_array($uri_arr) ){
             //удаляем из урла параметры препятствующие его корректному разбору функцией parse_url, актуально для авторизации через vk
@@ -33,20 +32,7 @@ class WebRequestHandler extends RequestHandler implements IRequestHandler {
 		$path = parse_url($requestUri, PHP_URL_PATH);
 
 		$res = $this->callCtlMethod($path);
-        /*
-		if (!$res) {
-			$m = UrlAliases::obj()->get();
-			$m->get()->filter($m->filterExpr()->eq('alias', $path))->exec();
-			if ($m->count()) {
-				$path = parse_url($m[0]->url, PHP_URL_PATH);
-				$query = parse_url($m[0]->url, PHP_URL_QUERY);
-				$r = array();
-				parse_str($query, $r);
-				$_REQUEST = array_merge($r, $_REQUEST);
-				$res = $this->callCtlMethod($path);
-			}
-		}
-        */
+
 		return $res;
 	}
 }

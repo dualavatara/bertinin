@@ -29,7 +29,9 @@ class SectionsMenuTemplate extends Template {
             }
 		}
 
-		print '<div class="breadcrumb">' . $menuItem['title'] . ($sectionTitle ? ' // ' . $sectionTitle : '') . '</div>';
+		print '<div class="breadcrumb">' . $menuItem['title'] . ($sectionTitle ? ' // ' . $sectionTitle : '');
+        if ($data['model'] instanceof AdminModel && $data['model']->getParentName()) print '//' . $data['model']->getParentName();
+        print '</div>';
 		
 		print '<div class="menubar">' . implode(' :: ', $sections) . '</div>';
 	}

@@ -20,7 +20,49 @@ abstract class AdminModel implements IAdminModel {
 	 */
 	private $fields = array();
 
+    /**
+     * @var Admin\Application
+     */
     protected $app;
+
+    /**
+     * ID of parent object for chil list
+     * @var
+     */
+    protected $parentId;
+
+    /**
+     * @return mixed
+     */
+    public function getParentId() {
+        return $this->parentId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParentName() {
+        return $this->parentName;
+    }
+
+    /**
+     * Human readable parent`s name for list title
+     * @var
+     */
+    protected $parentName;
+
+    /**
+     * Parent_id of a parent. For navigation to upper list
+     * @var
+     */
+    protected $parentParentId;
+
+    /**
+     * @return mixed
+     */
+    public function getParentParentId() {
+        return $this->parentParentId;
+    }
 
 	/**
 	 * @param Model $model
@@ -30,18 +72,61 @@ abstract class AdminModel implements IAdminModel {
         $this->app = $app;
 	}
 
-    public function addField(Template $formfield,  $listfield) {
+    /**
+     * @param $parentId
+     * @param $parentSection
+     * @param string $parentName
+     */
+    public function setParent($parentId, $parentName = '') {
+        $this->parentId = $parentId;
+        $this->parentName = $parentName;
+    }
+
+    /**
+     * @param $formfield
+     * @param $listfield
+     */
+    public function addField($formfield,  $listfield) {
         $this->fields[] = array('formfield' => $formfield, 'listfield' => $listfield);
     }
 
+    /**
+     * @return \Admin\Extension\Template\Template[]
+     */
     public function getFields() { return $this->fields; }
 
-	public function onSave($form) {}
+    /**
+     * Generate array witl params for use in getUrl function
+     */
+    public function getUrlParams() {
+        $params = $this->parentId ?
+            array('parent_id' => $this->parentId)
+            : array();
+        return $params;
+    }
+    /**
+     * Called before action`s call on controller: do_list, do_edit, do_save etc.
+     * @param \Admin\Request $request
+     */
+    public function onAction(\Admin\Request $request) {
+        if ($request['parent_id']) {
+            $this->getModel()->get($request['parent_id'])->exec();
+            $parentName = $this->getModel()->count() ? $this->getModel()[0]->name : '';
+            $this->parentParentId = $this->getModel()->count() ? $this->getModel()[0]->parent_id : '';
+            $this->setParent($request['parent_id'], $parentName);
+            $this->getModel()->clear();
+        }
+    }
+
+    /**
+     * @param $form
+     */
+    public function onSave(\Admin\Request $request) {}
 
 	/**
 	 * Select all object`s rows from database
 	 */
-	public function onList($request) {
+	public function onList(\Admin\Request $request) {
 		$this->getModel()->get()->all()->exec();
 	}
 
@@ -98,377 +183,3 @@ abstract class AdminModel implements IAdminModel {
 	}
 }
 
-abstract class AdminField {
-	public $name;
-	public $adminName;
-	public $isList;
-	public $isListEdit;
-	public $isMinWidth;
-
-	public $template;
-	public $adminModel;
-
-	public $isForm = true;
-
-	function __construct($name, $adminName, $isList = false, $isListEdit = false, $isMinWidth = false) {
-		$this->name = $name;
-		$this->adminName = $adminName;
-		$this->isList = $isList;
-		$this->isListEdit = $isListEdit;
-		$this->isMinWidth = $isMinWidth;
-	}
-
-	public function input($modelRow) {
-		ob_start();
-		$this->inputHtml($modelRow);
-		return ob_get_clean();
-	}
-
-	public function listText($modelRow) {
-		ob_start();
-		$this->listTextHtml($modelRow);
-		return ob_get_clean();
-	}
-
-	abstract public function inputHtml($modelRow);
-
-	public function listTextHtml($modelRow) {
-		echo $modelRow->{$this->name};
-	}
-
-	public function onSave(&$form) {
-
-	}
-}
-
-class DefaultAdminField extends AdminField {
-	public $size;
-
-	function __construct($name, $adminName, $isList = false, $isListEdit = false, $isMinWidth = false, $size = 50) {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->size = $size;
-	}
-
-	public function inputHtml($modelRow) {
-		?>
-	<input id="<?php echo $this->name; ?>" size="<?php echo $this->size; ?>" name="form[<?php echo $this->name; ?>]"
-		   value="<?php echo $modelRow->{$this->name}; ?>"/>
-	<?php
-	}
-}
-
-class TagsAdminField extends DefaultAdminField {
-	public $size;
-
-	public function inputHtml($modelRow) {
-		if ($modelRow) $val = unserialize($modelRow->getRaw()->{$this->name});
-		if (is_array($val)) $val = join(',', $val);
-		?>
-	<input id="<?php echo $this->name; ?>" size="<?php echo $this->size; ?>" name="form[<?php echo $this->name; ?>]"
-		   value="<?php echo $val; ?>"/>
-	<?php
-	}
-
-	public function listTextHtml($modelRow) {
-		if ($modelRow) $val = unserialize($modelRow->getRaw()->{$this->name});
-		if (is_array($val)) $val = join(',', $val);
-		echo $val;
-	}
-}
-
-class FloatAdminField extends AdminField {
-	public function inputHtml($modelRow) {
-		?>
-	<input id="<?php echo $this->name; ?>" name="form[<?php echo $this->name; ?>]" size="10"
-		   value="<?php echo floatval($modelRow->{$this->name}); ?>"/>
-	<?php
-	}
-}
-
-class TextAdminField extends AdminField {
-	public function inputHtml($modelRow) {
-		?>
-	<textarea id="<?php echo $this->name; ?>" name="form[<?php echo $this->name; ?>]" cols="50"
-			  rows="20"><?php echo ($modelRow->{$this->name}); ?></textarea>
-	<?php
-	}
-}
-
-class FlagsAdminField extends AdminField {
-	public function inputHtml($modelRow) {
-		if ($this->adminModel->getModel()->getFlags()) {
-			$this->template->insertTemplate('Form\FlagsField', array(
-				//'title' => $this->adminName,
-				'name' => "form[{$this->name}]",
-				'value' => $modelRow->flags,
-				'flags' => $this->adminModel->getModel()->getFlags()
-			));
-		}
-	}
-
-	public function listTextHtml($modelRow) {
-		if ($this->adminModel->getModel()->getFlags()) {
-			$flags = $modelRow->getModel()->getFlags();
-			$flag = array();
-			foreach ($flags as $k => $v) if ($modelRow->flags->check($k)) $flag[] = $v;
-			echo implode(',', $flag);
-		}
-		;
-	}
-}
-
-class CustomFlagsField extends AdminField {
-	public $func;
-
-	function __construct($name, $adminName, $func, $isList, $isListEdit = false, $isMinWidth = false) {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->func = $func;
-	}
-
-	public function inputHtml($modelRow) {
-		$this->template->insertTemplate('Form\FlagsField', array(
-			//'title' => $this->adminName,
-			'name' => "form[{$this->name}]",
-			'value' => $modelRow->{$this->name},
-			'flags' => $this->adminModel->getModel()->{$this->func}()
-		));
-	}
-
-	public function listTextHtml($modelRow) {
-		$flags = $modelRow->getModel()->{$this->func}();
-		$flag = array();
-		foreach ($flags as $k => $v) if ($modelRow->{$this->name}->check($k)) $flag[] = $v;
-		echo implode(',', $flag);
-	}
-}
-
-class SelectAdminField extends AdminField {
-	public $callback;
-	public $class;
-
-	function __construct($name, $adminName, $callback, $isList, $isListEdit = false, $isMinWidth = false) {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->callback = $callback;
-	}
-
-	public function inputHtml($modelRow) {
-		$this->template->insertTemplate('Form\SelectField', array(
-			'name' => $this->name,
-			'selected' => $modelRow->{$this->name},
-			'values' => $this->adminModel->getModel()->{$this->callback}(),
-		));
-	}
-
-	public function listTextHtml($modelRow) {
-		$arr = $modelRow->getModel()->{$this->callback}();
-		if (isset($arr[$modelRow->{$this->name}])) echo $arr[$modelRow->{$this->name}];
-	}
-}
-
-class SearchSelectAdminField extends AdminField {
-	//public $callback;
-	public $class;
-	public $linkField;
-	public $linkParam;
-
-	function __construct($name, $adminName, $class, $isList, $isListEdit = false, $isMinWidth = false, $linkField = '', $linkParam = '') {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->class = $class;
-		$this->linkField = $linkField;
-		$this->linkParam = $linkParam;
-	}
-
-	public function inputHtml($modelRow) {
-		$this->template->insertTemplate('Form\SearchSelectField', array(
-			'name' => "form[{$this->name}]",
-			'value' => $modelRow->{$this->name},
-			'rest_url' => '/admin/' . strtolower($this->class) . '/json',
-			'linked_field' => $this->linkField,
-			'linked_param' => $this->linkParam
-		));
-	}
-
-	public function listTextHtml($modelRow) {
-		$class = '\\model\\' . $this->class;
-		$basemodel = $modelRow->getModel()->getRaw();
-		$m = new $class($basemodel->db);
-		$m = $m->getModel();
-		$m->get($modelRow->{$this->name})->exec();
-		if ($m->count()) echo $m[0]->name;
-		//$arr = $modelRow->getModel()->{$this->callback}();
-		//if (isset($arr[$modelRow->{$this->name}])) echo $arr[$modelRow->{$this->name}];
-	}
-}
-
-
-class RefAdminField extends AdminField {
-	public $class;
-	public $childParams;
-	public $fromRoute;
-
-	function __construct($name, $adminName, IChildParams $childParams, $isList, $isListEdit = false, $isMinWidth = false) {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->isForm = false;
-		$this->childParams = $childParams;
-	}
-
-	public function inputHtml($modelRow) {
-
-	}
-
-	public function listTextHtml($modelRow) {
-		$params = array_merge($this->childParams->getParams($this, $modelRow->getRaw()), array(
-			'is_child' => true, 'from_route' => $_SERVER['REQUEST_URI'],
-		));
-		$this->template->showLink('список', strtolower($this->class) . '_list', $params);
-	}
-}
-
-class BackrefAdminField extends AdminField {
-	public $value;
-
-	function __construct($name, $adminName, $value, $isList, $isListEdit = false, $isMinWidth = false) {
-		parent::__construct($name, $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->value = $value;
-	}
-
-	public function inputHtml($modelRow) {
-		$value = $this->value;
-		if ($modelRow) $value = $modelRow->{$this->name};
-		?>
-	<input type="hidden" id="<?php echo $this->name; ?>" name="form[<?php echo $this->name; ?>]"
-		   value="<?php echo $value; ?>"/>
-	<?php
-		echo $value;
-	}
-
-	public function listTextHtml($modelRow) {
-		echo $modelRow->{$this->name};
-	}
-}
-
-class FileAdminField extends AdminField{
-    public function inputHtml($modelRow) {
-        $this->template->insertTemplate('Form\FileField', array(
-            'name' => $this->name, 'key' => $modelRow->{$this->name},
-        ));
-    }
-
-    public function listTextHtml($modelRow) {
-        if ($modelRow->{$this->name}) $this->template->showLink($modelRow->{$this->name}, 'static', array('key' => $modelRow->{$this->name}), 'target="_blank"');
-    }
-}
-
-class ImageAdminField extends AdminField {
-	public function inputHtml($modelRow) {
-		$this->template->insertTemplate('Form\ImageField', array(
-			'name' => $this->name, 'key' => $modelRow->{$this->name},
-		));
-	}
-
-	public function listTextHtml($modelRow) {
-		if ($modelRow->{$this->name}) $this->template->showLink($modelRow->{$this->name}, 'static', array('key' => $modelRow->{$this->name}), 'target="_blank"');
-	}
-
-	public function onSave(&$form) {
-		parent::onSave($form);
-		/*
-		 foreach($_FILES as $key => $fparam) {
-			if ($this->model->getModel()->getField($key)) {
-				$is = new \ImageStorage(getcwd() . '/../' . PATH_DATA);
-				$imgkey = $is->storeImage($key);
-				if ($imgkey) $form[$key] = $imgkey;
-			}
-		}
-		 */
-		foreach ($_FILES as $key => $fparam) {
-			if ($this->name == $key) {
-				$is = new \ImageStorage(getcwd() . '/../' . PATH_DATA);
-				$imgkey = $is->storeImage($key);
-				if ($imgkey) $form[$key] = $imgkey;
-			}
-		}
-	}
-
-}
-
-class ImageThumbnailAdminField extends AdminField {
-	public $refName;
-	public $width;
-	public $height;
-
-	function __construct($name, $refName, $width, $height, $adminName, $isList = false) {
-		parent::__construct($name, $adminName, $isList, false, false);
-		$this->refName = $refName;
-		$this->width = $width;
-		$this->height = $height;
-	}
-
-	public function inputHtml($modelRow) {
-		if ($modelRow->{$this->name}) $this->template->showLink($modelRow->{$this->name}, 'static', array('key' => $modelRow->{$this->name}), 'target="_blank"');
-	}
-
-	public function listTextHtml($modelRow) {
-		if ($modelRow->{$this->name}) $this->template->showLink($modelRow->{$this->name}, 'static', array('key' => $modelRow->{$this->name}), 'target="_blank"');
-	}
-
-	public function onSave(&$form) {
-		parent::onSave($form);
-		foreach ($_FILES as $key => $fparam) {
-			if ($this->refName == $key) {
-				$is = new \ImageStorage(getcwd() . '/../' . PATH_DATA);
-				$imgkey = $is->storeImageThumbnail($key, $this->width, $this->height);
-				if ($imgkey) $form[$this->name] = $imgkey;
-			}
-		}
-	}
-
-}
-
-class DateTimeAdminField extends AdminField {
-	public function inputHtml($modelRow) {
-		/*	$this->template->insertTemplate('Form\SelectField', array(
-			'name' => $this->name,
-			'selected' => $modelRow->type,
-			'values' => $this->adminModel->getModel()->{$this->callback}(),
-		));*/
-        date_default_timezone_set('Europe/Moscow');
-		$now = new DateTime();
-		$date = array(
-			'name' => $this->name, 'value' => $modelRow ? $modelRow->{$this->name} : $now->format(DateTime::ISO8601)
-		);
-		$this->template->insertTemplate('Form\DateTimeField', $date);
-	}
-
-	/*public function listTextHtml($modelRow) {
-		$arr = $modelRow->getModel()->{$this->callback}();
-		if (isset($arr[$modelRow->{$this->name}])) echo $arr[$modelRow->{$this->name}];
-	}*/
-}
-
-class FieldInfoAdminField extends AdminField {
-	public $pattern;
-
-	function __construct($pattern, $adminName, $isList = false, $isListEdit = false, $isMinWidth = false, $size = 50) {
-		parent::__construct('', $adminName, $isList, $isListEdit, $isMinWidth);
-		$this->pattern = $pattern;
-	}
-
-	public function inputHtml($modelRow) {
-		if ($modelRow) {
-			$m = $modelRow->getModel()->getRaw();
-			$pattern = $this->pattern;
-			foreach ($m->getFields() as $field) {
-				$v = $modelRow->getRaw()->{$field->name};
-				$pattern = preg_replace('/{' . $field->name . '}/', $v, $pattern);
-			}
-			?>
-		<a href="<?php echo $pattern; ?>"><?php echo $pattern; ?></a>
-		<?php
-		}
-	}
-
-	public function listTextHtml($modelRow) {
-		$this->inputHtml($modelRow);
-	}
-}

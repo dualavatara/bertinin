@@ -25,35 +25,6 @@ class TimestampSqlFilter implements ISqlFilter {
     }
 }
 
-class FieldsSqlFilter implements ISqlFilter {
-	private $fields = null;
-	public function __construct($fields) {
-		$this->fields = $fields;
-	}
-
-	public function sql(Model $model, $row = null) {
-		$data = $model->getData();
-		$sql = '';
-		$ops = array();
-		if (isset($row)) {
-			foreach ($this->fields as $field) {
-				/** @noinspection PhpUndefinedMethodInspection */
-				$s = $model->fields[$field]->sqlFilter($row[$field], $model->getDb());
-				if ($s) $ops[] = $s;
-			}
-		} else {
-			foreach ($this->fields as $field) {
-				/** @noinspection PhpUndefinedMethodInspection */
-				$s = $model->fields[$field]->sqlFilter($model->$field, $model->getDb());
-				if ($s) $ops[] = $s;
-			}
-		}
-		if (empty($ops)) return 'false';
-		$sql = '(' . implode(' AND ', $ops) . ')';
-		return $sql;
-	}
-}
-
 class FieldValueOp {
 	public $fieldName = null;
 	public $value = null;

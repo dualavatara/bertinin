@@ -15,23 +15,33 @@ use Admin\Extension\Template\Template;
  *   ['empty' => true],
  * );
  */
-class SelectField extends Template {
+class SelectField extends StdField {
+    private $values;
 
-	protected function show($data, $content = null) {
-		$name     = $data['name'];
-		$values   = $data['values'];
+    private $empty;
+
+    public function __construct(\Admin\Application $app, $name, $label, $section, $values, $empty = false) {
+        parent::__construct($app, $name, $label, $section);
+        $this->values = $values;
+        $this->empty = $empty;
+    }
+
+    protected function show($data, $content = null) {
 		$selected = $data['selected'];
 		?>
-	<select name="form[<?php echo $name; ?>]">
-	<?php if (isset($data['empty']) && true === $data['empty']): ?>
+        <div style="clear:both; line-height:25px;">
+        <label style="float:left; padding-right:10px; width: 150px; margin-right: -150px;text-align: right;" for="<?php echo $this->name; ?>"><?php echo $this->label; ?></label>
+	<select style="margin-left: 150px;" name="form[<?php echo $this->name; ?>]">
+	<?php if ($this->empty) { ?>
 		<option value="" <?php echo ('' == $selected) ? 'selected' : ''; ?>>---</option>
-	<?php endif; ?>
-	<?php foreach ($values as $value => $text): ?>
+	<?php }; ?>
+	<?php foreach ($this->values as $value => $text): ?>
 		<option value="<?php echo $value; ?>" <?php echo $selected == $value ? 'selected' : ''; ?>>
 			<?php echo $text; ?>
 		</option>
 	<?php endforeach; ?>
 	</select>
+        </div>
 	<?php
 
 	}

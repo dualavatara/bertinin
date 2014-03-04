@@ -10,6 +10,10 @@ namespace Form;
 
 use Admin\Extension\Template\Template;
 
+/**
+ * Class StdField
+ * @package Form
+ */
 abstract class StdField extends Template {
     /**
      * @var string
@@ -21,7 +25,14 @@ abstract class StdField extends Template {
      */
     protected $label;
 
+    /**
+     * @var
+     */
     protected $object;
+    /**
+     * @var
+     */
+    protected $section;
 
     /**
      * @param mixed $object
@@ -30,10 +41,17 @@ abstract class StdField extends Template {
         $this->object = $object;
     }
 
-    public function __construct(\Admin\Application $app, $name, $label) {
+    /**
+     * @param \Admin\Application $app
+     * @param $name
+     * @param $label
+     * @param $section
+     */
+    public function __construct(\Admin\Application $app, $name, $label, $section) {
         parent::__construct($app);
         $this->name = $name;
         $this->label = $label;
+        $this->section = $section;
     }
 
     /**
