@@ -25,7 +25,11 @@ class StdListTemplate extends Template {
     protected function show($data, $content = null) {
         ?>
         <div class="submenubar">
-            <?php $this->showLink('[Добавить]', $this->section . '_add')?>
+            <?php
+            $params = $data['model']->getUrlParams();
+
+            $this->showLink('[Добавить]', $this->section . '_add', $params);
+            ?>
         </div>
         <table class="list">
             <tr>
@@ -54,8 +58,11 @@ class StdListTemplate extends Template {
                     };
                     ?>
                     <td>
-                        <?php $this->showLink('&nbsp;X&nbsp;', $this->section . '_delete', array('id' => $item->id),
-                            'onClick="return AdminJS.deleteConfirmation();"');?>
+                        <?php
+                        $params['id'] = $item->id;
+                        $this->showLink('&nbsp;X&nbsp;', $this->section . '_delete', $params,
+                            'onClick="return AdminJS.deleteConfirmation();"');
+                        ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

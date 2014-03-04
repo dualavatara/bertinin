@@ -33,7 +33,13 @@ class StdController extends Controller {
 
 	}
 
-	public function do_add() {
+    public function do_action(Request $request) {
+        parent::do_action($request);
+        $this->model->onAction($request);
+    }
+
+
+    public function do_add() {
 		$this->data['model'] = $this->model;
         $formTemplate = $this->objectName ? $this->objectName.'\FormTemplate' : 'FormModelTemplate';
 		return $this->app['template']->render($formTemplate, $this->data);
@@ -49,7 +55,7 @@ class StdController extends Controller {
 		}
 		if (!in_array($id, $fixed)) $this->model->delById($id);
 
-        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list');
+        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list', $this->model->getUrlParams());
         return $this->app->redirect($url);
 	}
 
@@ -86,17 +92,12 @@ class StdController extends Controller {
 			unset($form['routes']);
 		} else $routes = array();
 
-		$this->model->onSave($form);
-
-//		foreach ($this->model->getFields() as $field) {
-//			$field->onSave($form);
-//		}
-		//if there uploaded files with names of model field, store them
+		$this->model->onSave($request);
 
 		if ($form['id']) $this->model->saveFromForm($form);
 		else $this->model->addFromForm($form);
 
-        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list');
+        $url = $this->app->getUrl(strtolower($this->data['section']) . '_list', $this->model->getUrlParams());
         return $this->app->redirect($url);
 	}
 }

@@ -24,7 +24,10 @@ class Controller {
 		if (!method_exists($this, $action)) {
 			throw new \InvalidArgumentException('Action method not found in controller');
 		}
-		
+
+        $this->do_action($request);
 		return $this->$action($request);
 	}
+
+    public function do_action(Request $request) {}
 }

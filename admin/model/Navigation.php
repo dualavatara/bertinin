@@ -10,7 +10,10 @@ namespace model;
 
 require_once '/model/NavigationModel.php';
 
+use Admin\Request;
+use Form\HiddenField;
 use Form\SelectField;
+use Lists\ChildListLinkField;
 use Lists\ChildrenField;
 use Lists\EditLinkField;
 use Lists\PlaintextField;
@@ -36,11 +39,14 @@ class Navigation extends \AdminModel{
         $this->addField(new \Form\EditField($this->app, 'ord', 'Порядок', 'navigation', 5),
             new PlaintextField($this->app, 'ord', 'Порядок', 'navigation'));
 
-        $this->addField(null, new ChildrenField($this->app, 'parent_id', 'Порядок', 'navigation'));
+        $this->addField(new HiddenField($this->app, 'parent_id', 'Родитель', 'navigation', $_REQUEST['parent_id']),
+            new ChildListLinkField($this->app, 'parent_id', 'Подчиненные', 'navigation', 'navigation'));
     }
 
-    public function onList($request) {
-        $this->getModel()->get()->all()->order('ord', 1)->exec();
+    public function onList(Request $request) {
+        if ($this->getParentId()) {
+            $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->exec();
+        } else $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', 0))->order('ord', 1)->exec();
     }
 
 

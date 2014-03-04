@@ -19,7 +19,10 @@ class HiddenField extends StdField {
     }
 
     protected function show($data, $content = null) {
-        $value = $this->defaultValue;
+        $value =  '';
+        if (!$this->defaultValue && $data['model']->getModel()->count()) {
+            $value = $data['model']->getModel()[0]->{$this->name};
+        } else $value = $this->defaultValue;
         ?>
         <input type="hidden" name="form[<?php echo $this->name;?>]" value="<?php echo $value; ?>"/>
 <?php

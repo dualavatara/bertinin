@@ -42,23 +42,21 @@ class StdFormTemplate extends Template {
      * @param null $content
      */
     public function show($data, $content = null) {
-
+        $params = $data['model']->getUrlParams();
         ?>
         <div class="submenubar">
-            <?php $this->showLink('[Список]', $this->section . '_list')?>
+            <?php $this->showLink('[Список]', $this->section . '_list', $params)?>
         </div>
         <div class="group">
             <div class="capture"><?php echo $this->isEdit ? 'Редактирование' : 'Создание';?></div>
-            <form method="post" id="editForm" class="required" minlength="2" action="<?php echo $this->getUrl($this->section . '_save'); ?>" enctype="multipart/form-data">
+            <form method="post" id="editForm" class="required" minlength="2" action="<?php echo $this->getUrl($this->section . '_save', $params); ?>" enctype="multipart/form-data">
                 <input type="hidden" name="form[id]" value="<?php echo $this->model->count() ? $this->model[0]->id: ''; ?>"/>
                 <div id="general">
-                    <table>
                         <?php
                         foreach($this->fields as $field) {
                             if (isset($field['formfield'])) $field['formfield']->show($data, $content);
                         };
                             ?>
-                    </table>
                 </div>
                 <div class="button button-save" style="margin-left: 150px;">
                     <div class="icon icon-save"></div>
