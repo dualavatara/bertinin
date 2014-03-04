@@ -12,13 +12,19 @@ namespace View;
  * @package View
  */
 class BaseView implements IView {
+    public $title;
+    public $description;
+    public $keywords;
+    public $ogurl;
+    public $ogimage;
+
     /**
      * @var
      */
     public $content;
 
     /**
-     * @var NavigationModel
+     * @var \NavigationModel
      */
     public $navmodel;
 
@@ -48,8 +54,25 @@ class BaseView implements IView {
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <title>
-                <?php echo \Settings::obj()->value('title'); ?>
+                <?php if ($this->title) echo $this->title;
+                else echo \Settings::obj()->value('title'); ?>
             </title>
+
+            <meta name="Description" content="<?php if ($this->description) echo $this->description;
+            else echo \Settings::obj()->value('description'); ?>">
+            <meta name="Keywords" content="<?php if ($this->keywords) echo $this->keywords;
+            else echo \Settings::obj()->value('keywords'); ?>">
+
+            <meta property="og:title" content="<?php if ($this->title) echo $this->title;
+            else echo \Settings::obj()->value('title'); ?>" />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="<?php if ($this->url) echo $this->url;
+            else echo \Settings::obj()->value('ogurl'); ?>" />
+            <meta property="og:image" content="<?php if ($this->image) echo $this->image;
+            else echo \Settings::obj()->value('ogimage'); ?>" />
+            <meta property="og:description" content="<?php if ($this->description) echo $this->description;
+                  else echo \Settings::obj()->value('description'); ?>" />
+
             <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
             <script src="/static/js/jquery-2.1.0.js" language="JavaScript"></script>
             <script src="/static/js/jquery-ui-1.10.4.custom.js" language="JavaScript"></script>
@@ -57,24 +80,24 @@ class BaseView implements IView {
         <body>
         <aside>
             <a href="/"><img src="/static/img/logo.png"></a>
-            <nav>
+            <nav class="parent">
                 <script language="JavaScript">
                     $(document).ready(function () {
-                            $("nav div").hover(
+                            $("nav.parent>div>a").hover(
                                 function () { //enter hover
-                                    $(this).children("a").animate({color: "#000000", fontSize: "16pt"}, 100);
-                                    $(this).next().children("a").animate({color: "#444444", fontSize: "13pt"}, 100);
-                                    $(this).next().next().children("a").animate({color: "#666666", fontSize: "12pt"}, 100);
-                                    $(this).prev().children("a").animate({color: "#444444", fontSize: "13pt"}, 100);
-                                    $(this).prev().prev().children("a").animate({color: "#666666", fontSize: "12pt"}, 100);
+                                    $(this).animate({color: "#000000", fontSize: "16pt"}, 100);
                                 },
                                 function () {
+                                    $(this).animate({color: "#666666", fontSize: "12pt"}, 100);
                                 }
                             )
-                            $("nav").hover(function () {
+
+                            $("nav.child>div>a").hover(
+                                function () { //enter hover
+                                    $(this).animate({color: "#000000", fontSize: "12pt"}, 100);
                                 },
-                                function () { //exit hover
-                                    $(this).find("a").animate({ color: "#666666", fontSize: "12pt"}, 100);
+                                function () {
+                                    $(this).animate({color: "#444444", fontSize: "10pt"}, 100);
                                 }
                             )
                         }
@@ -82,11 +105,34 @@ class BaseView implements IView {
                 </script>
                 <?php
                 foreach ($this->navmodel as $object) {
+                    $ruri = $_SERVER['DOCUMENT_URI'];
+
                     ?>
                     <div>
+
                         <a href="<?php echo $object->url ?>" target="<?php echo $object->target; ?>">
+                            <?php if ($ruri == $object->url) echo '•'; ?>
                             <?php echo $object->name; ?>
                         </a>
+                        <?php
+
+                        $children = $this->navmodel->getChildren($object->id);
+                        if (!empty($children)) {
+                            echo '<nav class="child">';
+                            foreach($children as $child) {
+                            ?>
+                            <div>
+
+                                <a href="<?php echo $child->url ?>" target="<?php echo $child->target; ?>">
+                                    <?php if ($ruri == $child->url) echo '•'; ?>
+                                    <?php echo $child->name; ?>
+                                </a>
+                            </div>
+                            <?php
+                            }
+                            echo '</nav>';
+                        }
+                        ?>
                     </div>
                 <?php
                 }

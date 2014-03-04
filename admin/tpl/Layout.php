@@ -18,6 +18,11 @@ class Layout extends Template {
 		<script src="<?=$config->baseUrl?>/static/admin.js"></script>
 		<script src="<?=$config->baseUrl?>/static/jquery/jqval/jquery.validate.js"></script>
 		<script src="<?=$config->baseUrl?>/static/jquery/jqval/localization/messages_ru.js"></script>
+        <script>
+            var CKEDITOR_BASEPATH = '/admin/static/ckeditor/';
+        </script>
+
+        <script src="/admin/static/ckeditor/ckeditor.js"></script>
 
 		<style type="text/css">
 			label.invalid { float: none; color: red; padding-left: .5em; vertical-align: middle; }

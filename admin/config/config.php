@@ -62,12 +62,19 @@ return array(
         'navigation_list' => array('/navigation/list', 'Navigation', 'list'),
         'navigation_save' => array('/navigation/save', 'Navigation', 'save'),
         'navigation_add' => array('/navigation/add', 'Navigation', 'add'),
+
+        'article_edit' => array('/article/edit/{id}', 'Article', 'edit'),
+        'article_delete' => array('/article/delete/{id}', 'Article', 'delete'),
+        'article_list' => array('/article/list', 'Article', 'list'),
+        'article_save' => array('/article/save', 'Article', 'save'),
+        'article_add' => array('/article/add', 'Article', 'add'),
 	),
 
 	'menu' => array(
         'content' => array(
             'title' => 'Контент', 'sections' => array(
                 'Navigation' => array('title' => 'Разделы', 'route' => 'navigation_list', 'params' => array()),
+                'Article' => array('title' => 'Статьи', 'route' => 'article_list', 'params' => array()),
                 'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
             )
         ),

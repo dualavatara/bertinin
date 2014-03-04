@@ -19,15 +19,27 @@ aside {
     text-align: right;
 }
 
-aside nav {
+aside nav.parent {
     margin-top: 50px;
     margin-right: 35px;
+}
+
+aside nav.child {
+    margin-right: 15px;
 }
 
 aside nav a {
     text-decoration: none;
     color: #666666;
     line-height: 18pt;
+}
+
+aside nav.child a {
+    text-decoration: none;
+    color: #444444;
+    line-height: 18pt;
+    font-size: 10pt;
+    white-space: nowrap;
 }
 
 #mainarea {

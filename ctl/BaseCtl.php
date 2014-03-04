@@ -20,6 +20,7 @@ abstract class BaseCtl {
 	function __construct(\IDispatcher $disp) {
 		$this->disp = $disp;
         $this->navmodel = new \NavigationModel($this->disp->di()->PDODatabase());
-        $this->navmodel->get()->all()->order('ord', 1)->exec();
+        $this->navmodel->get()->filter($this->navmodel->filterExpr()->eq('parent_id', 0))->order('ord', 1)->exec();
+        $this->navmodel->loadChildren();
 	}
 }

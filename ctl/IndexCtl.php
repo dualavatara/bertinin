@@ -7,6 +7,9 @@
 
 namespace Ctl;
 
+require_once '/model/ArticleModel.php';
+
+use View\ArticleView;
 use View\Page4040View;
 
 class IndexCtl extends BaseCtl {
@@ -29,6 +32,21 @@ class IndexCtl extends BaseCtl {
     public function page404() {
         $view = new Page4040View();
         $view->navmodel = $this->navmodel;
+        return $view;
+    }
+
+    public function aliased($alias) {
+        $view = new Page4040View();
+        $view->navmodel = $this->navmodel;
+        //First searching articles
+        $articles = new \ArticleModel($this->disp->di()->PDODatabase());
+        if ($articles->getAliased($alias)) {
+            $view = new ArticleView();
+            $view->article = $articles;
+            $view->navmodel = $this->navmodel;
+            return $view;
+        }
+
         return $view;
     }
 }
