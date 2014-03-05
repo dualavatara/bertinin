@@ -62,9 +62,9 @@ class SecurityUser implements \Admin\Extension\Security\SecurityUserInterface {
 		
 		// Save user info and allowed routes to session
 		if (1 == $this->user->count()) {
-			$this->app['session']->write($this->key, $this->user[0]);
+			$this->app->getSession()->write($this->key, $this->user[0]);
             $routes = $this->getRoutes($this->user[0]->id);
-            $this->app['session']->write(self::ROUTES, $routes);
+            $this->app->getSession()->write(self::ROUTES, $routes);
 			return true;
 		}
 		
@@ -77,7 +77,7 @@ class SecurityUser implements \Admin\Extension\Security\SecurityUserInterface {
 	 * @return void
 	 */
 	public function logout() {
-		$this->app['session']->remove($this->key);
+		$this->app->getSession()->remove($this->key);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class SecurityUser implements \Admin\Extension\Security\SecurityUserInterface {
 	 * @return Boolean true if the user is authenticated, false otherwise
 	 */
 	public function isAuthenticated() {
-		return  (null != $this->app['session']->read($this->key));
+		return  (null != $this->app->getSession()->read($this->key));
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SecurityUser implements \Admin\Extension\Security\SecurityUserInterface {
 	 * @return mixed
 	 */
 	public function __get($name) {
-		$user = $this->app['session']->read($this->key);
+		$user = $this->app->getSession()->read($this->key);
 		
 		if (null == $user)
 			throw new \BadMethodCallException('User is not authenticated');

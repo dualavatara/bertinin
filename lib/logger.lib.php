@@ -30,8 +30,6 @@ class Logger extends Singletone{
 		self::CRITICAL_LVL		=> '[CRITICAL] '
 	);
 
-	private $customTags = array();
-
 	private $nativeErrCodeMap = array(
 		E_ERROR				=> self::CRITICAL_LVL,
 		E_WARNING			=> self::WARNING_LVL,
@@ -52,7 +50,7 @@ class Logger extends Singletone{
 
 	protected $mode;
 	public function __construct() {
-		if (DEBUG_MODE) $this->setMode(self::DEBUG_MODE);
+		if (self::DEBUG_MODE) $this->setMode(self::DEBUG_MODE);
 		else $this->setMode(self::PRODUCTION_MODE);
 	}
 
@@ -76,8 +74,7 @@ class Logger extends Singletone{
 
 	public function critical($msg) { $this->log(self::CRITICAL_LVL, $msg); }
 
-	public function log($lvl, $msg, $args = null, $kwargs = null) {
-		//@todo realise usage of $args and $kwargs variables
+	public function log($lvl, $msg) {
 		if ($lvl >= $this->mode) {
 			if (!is_array($msg) && !is_object($msg)) @error_log($this->getLogTag($lvl) . $msg);
 			elseif ($msg instanceof IPrintable) @error_log($this->getLogTag($lvl) . $msg->toString());
@@ -98,7 +95,6 @@ class Logger extends Singletone{
 		else $this->log(self::CRITICAL_LVL, $msg);
 	}
 
-	//@todo realise settings of custom levels
 }
 
 ?>

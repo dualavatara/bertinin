@@ -8,7 +8,6 @@
 
 namespace Lists;
 
-use Admin\Extension\Template\Template;
 use Form\StdField;
 
 class ChildListLinkField extends StdField{
@@ -26,7 +25,7 @@ class ChildListLinkField extends StdField{
                $value = $this->object->{$this->name};
                $id = $this->object->id;
            }
-           if($this->app['user']->checkRoute($this->section . '_list'))
+           if($this->app->getUser()->checkRoute($this->section . '_list'))
                $this->showLink('список', $this->section . '_list', array('parent_id' => $id, 'parent_section' => $this->parent_section));
            else echo $value;
     }

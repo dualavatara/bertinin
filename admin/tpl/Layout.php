@@ -35,7 +35,7 @@ class Layout extends Template {
 				<div class="topTitle"><?php echo $config->title ?></div>
 				<div class="userInfo">
 					<span>Вы зашли как</span>
-					<span class="userName"><?php echo $this->app['user']->login; ?></span>
+					<span class="userName"><?php echo $this->app->getUser()->login; ?></span>
 					<a href="<?php echo $this->getUrl('logout'); ?>">(Выйти)</a>
 				</div>
 			</td>

@@ -8,9 +8,10 @@ class LeftMenuTemplate extends Template {
 		$config = $this->app->getConfig();
 
 		$html = "<ul>\n";
-		$allowed = $this->app['user']->getRoutes();
-        $routename = $this->app->getRouteName($this->app->path);
-            $menuItem = $config->getMenuItem($routename);
+		$allowed = $this->app->getUser()->getRoutes();
+        $routename = $this->app->getRouteName();
+        $menuItem = $config->getMenuItem($routename);
+
 		foreach ($config->menu as $name => $item) {
 			$title = $item['title'];
 			if (isset($menuItem) && ($menuItem[0] == $name)) {
@@ -19,7 +20,7 @@ class LeftMenuTemplate extends Template {
 
 
 			$item['sections'] = array_filter($item['sections'], function($val) use ($allowed) {
-				foreach ($allowed as $k => $v) {
+				foreach ($allowed as $v) {
 					if ($val['route'] == $v) return true;
 				}
 				return false;

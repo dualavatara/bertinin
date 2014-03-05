@@ -3,7 +3,6 @@
 namespace Admin\Extension\Database;
 
 /**
- * @todo Convert to Model extension
  * Autoload Model classes
  */
 class DatabaseExtension implements \Admin\ExtensionInterface {

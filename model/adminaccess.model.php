@@ -1,6 +1,6 @@
 <?php
 
-require_once '../lib/model.lib.php';
+require_once 'lib/model.lib.php';
 
 class AdminAccessModel extends Model{
 
@@ -13,6 +13,10 @@ class AdminAccessModel extends Model{
         $this->field(new CharField('route_name'));
     }
 
+    /**
+     * @param $user_id
+     * @return AdminAccessModel
+     */
     public function getRouteNames($user_id) {
         $filter = new FieldValueSqlFilter();
         $filter->eq('user_id', $user_id);

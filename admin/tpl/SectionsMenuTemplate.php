@@ -14,11 +14,11 @@ class SectionsMenuTemplate extends Template {
 
 		$sectionTitle = '';
 		$sections = array();
-        $routename = $this->app->getRouteName($this->app->path);
+        $routename = $this->app->getRouteName();
 		$menuItem = $config->getMenuItem($routename)[1];
 
 		if ($menuItem) foreach ($menuItem['sections'] as $name => $sectionItem) {
-            if($this->app['user']->checkRoute($sectionItem['route'])) {
+            if($this->app->getUser()->checkRoute($sectionItem['route'])) {
                 $title = $sectionItem['title'];
                 if (isset($section) && ($section == $name)) {
                     $sectionTitle = $title;

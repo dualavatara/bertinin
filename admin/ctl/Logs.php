@@ -2,7 +2,7 @@
 
 namespace ctl;
 
-require_once '../model/adminlogs.model.php';
+require_once 'model/adminlogs.model.php';
 
 class Logs extends \Admin\Controller {
 
@@ -18,6 +18,6 @@ class Logs extends \Admin\Controller {
 
 		$this->data['model'] = $model;
 
-		return $this->app['template']->render('Logs\ListTemplate', $this->data);
+		return $this->app->getTemplateEngine()->render('Logs\ListTemplate', $this->data);
 	}
 }

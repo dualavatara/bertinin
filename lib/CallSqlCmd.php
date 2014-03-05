@@ -7,9 +7,6 @@
 
 require_once("ISqlCmd.php");
 
-/**
- * @todo Create constructor and pass stored procedure name and arguments to it
- */
 class CallSqlCmd implements ISqlCmd{
 
 	protected $stProsName;
