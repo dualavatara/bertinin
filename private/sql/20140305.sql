@@ -6,3 +6,9 @@ CREATE TABLE `article_photo` (
   `alt` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `article_photo`
+ADD COLUMN `ord` INT NULL AFTER `alt`;
+
+ALTER TABLE `photo`
+ADD COLUMN `ord` INT NULL AFTER `alt`;

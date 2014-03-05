@@ -12,6 +12,7 @@ class PhotoModel extends Model {
         parent::__construct('photo', $db);
 
         $this->field(new IntField('parent_id'));
+        $this->field(new IntField('ord'));
         $this->field(new CharField('img'));
         $this->field(new CharField('imgtn'));
         $this->field(new CharField('alt'));

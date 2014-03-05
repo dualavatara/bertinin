@@ -76,10 +76,14 @@ class BaseView implements IView {
             <link href="/static/css/styles.css" rel="stylesheet" type="text/css">
             <script src="/static/js/jquery-2.1.0.js" language="JavaScript"></script>
             <script src="/static/js/jquery-ui-1.10.4.custom.js" language="JavaScript"></script>
+
+            <script src="/admin/static/lightbox/js/lightbox-2.6.min.js"></script>
+            <link href="/admin/static/lightbox/css/lightbox.css" rel="stylesheet" />
+
         </head>
         <body>
         <aside>
-            <a href="/"><img src="/static/img/logo.png"></a>
+            <div id="logo"><a href="/"><img src="/static/img/logo.png"></a></div>
             <nav class="parent">
                 <script language="JavaScript">
                     $(document).ready(function () {

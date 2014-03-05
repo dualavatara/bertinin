@@ -22,7 +22,17 @@ class ArticleView extends BaseView {
         ?>
         <article>
             <h1><?php echo $this->article[0]->title;?></h1>
-            <p><?php echo $this->article[0]->note;?></p>
+            <div style="width: 150px;float: left;">
+                <?php
+                $images = $this->article->getPhotos($this->article[0]->id);
+                foreach($images as $img) {
+                    echo '<a href="' . $img->img . '" data-lightbox="articleimage'.$this->article[0]->id.'" target="_blank"><img src="' . $img->imgtn . '" style="max-width: 150px;" alt="' . $img->alt . '"></a>';
+                }
+                ?>
+            </div>
+            <div style="margin-left: 180px;margin-right: 20px;">
+                <?php echo $this->article[0]->note;?>
+            </div>
         </article>
 
         <?

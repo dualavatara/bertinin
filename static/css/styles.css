@@ -7,9 +7,9 @@
 }
 
 body {
-    width: 800px;
+    width: 1000px;
     margin: 0px auto;
-    background-color: #d9dadc;
+    background-color: #eeeeee;
     font-family: "PragmaticaLightCTT";
 }
 
@@ -43,7 +43,7 @@ aside nav.child a {
 }
 
 #mainarea {
-    width: 570px;
+    width: 770px;
     margin-left: 230px;
     background-color: #eeeeee;
 }
@@ -73,6 +73,10 @@ main {
     min-height: 30em;
     padding-left: 35px;
     padding-right: 10px;
+}
+
+h1 {
+    font-size: 2em;
 }
 
 footer {

@@ -29,13 +29,15 @@ class ArticlePhoto extends \AdminModel {
             new ImageLinkField($this->app, 'imgtn', 'Предпросмотр', 'articlephoto'));
         $this->addField(new ImageField($this->app, 'img', 'Изображение', 'articlephoto'),
             new ValueLinkField($this->app, 'img', 'Изображение', 'articlephoto'));
+        $this->addField(new \Form\EditField($this->app, 'ord', 'Порядок', 'articlephoto', 50),
+            new EditLinkField($this->app, 'ord', 'Порядок', 'articlephoto'));
 
     }
 
     public function onList(\Admin\Request $request) {
         if ($this->getParentId()) {
-            $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->exec();
-        } else $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', 0))->exec();
+            $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->order('ord', 1)->exec();
+        } else $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', 0))->order('ord', 1)->exec();
     }
 
     public function onSave(\Admin\Request $request) {
@@ -46,7 +48,6 @@ class ArticlePhoto extends \AdminModel {
                     $is = new \ImageStorage(getcwd() . '/../');
                     $imgkey = $is->storeImage($key);
                     if ($imgkey) $form[$fkey] = $imgkey;
-                    $form[$fkey] = $imgkey;
                 }
             }
         }

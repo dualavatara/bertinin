@@ -1,8 +1,5 @@
 <?php
 
-require_once dirname(__FILE__).'/../../model/adminuser.model.php';
-require_once dirname(__FILE__).'/../../model/adminaccess.model.php';
-
 class SecurityUser implements \Admin\Extension\Security\SecurityUserInterface {
 
     const ROUTES = 'routes';

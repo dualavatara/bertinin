@@ -6,6 +6,8 @@
  * Time: 17:42
  */
 
+require_once 'model/ArticlePhotoModel.php';
+
 class ArticleModel extends Model {
     public function __construct(IDatabase $db) {
         parent::__construct('article', $db);
@@ -22,4 +24,9 @@ class ArticleModel extends Model {
         return $this->count();
     }
 
+    public function getPhotos($id) {
+        $m = new ArticlePhotoModel($this->db);
+        $m->get()->filter($m->filterExpr()->eq('parent_id', $id))->order('ord', 1)->exec();
+        return $m;
+    }
 } 
