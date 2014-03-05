@@ -12,7 +12,7 @@ namespace Admin;
  *
  * Example usage:
  * <code>
- *     $loader = new JBFWClassLoader();
+ *     $loader = new ClassLoader();
  *
  *     // register classes with namespaces
  *     $loader->registerNamespaces('\Admin', _DIR__ . '/vendor');
