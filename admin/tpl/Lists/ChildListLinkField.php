@@ -10,7 +10,7 @@ namespace Lists;
 
 use Form\StdField;
 
-class ChildListLinkField extends StdField{
+class ChildListLinkField extends StdField {
     protected $parent_section;
 
     public function __construct(\Admin\Application $app, $name, $label, $section, $parent_section) {
@@ -19,14 +19,12 @@ class ChildListLinkField extends StdField{
     }
 
     protected function show($data, $content = null) {
-           $value = '';
-           $id = 0;
-           if ($this->object) {
-               $value = $this->object->{$this->name};
-               $id = $this->object->id;
-           }
-           if($this->app->getUser()->checkRoute($this->section . '_list'))
-               $this->showLink('список', $this->section . '_list', array('parent_id' => $id, 'parent_section' => $this->parent_section));
-           else echo $value;
+        $id = 0;
+        if ($this->object) {
+            $id = $this->object->id;
+        }
+        if ($this->app->getUser()->checkRoute($this->section . '_list'))
+            $this->showLink('список', $this->section . '_list', array('parent_id' => $id, 'parent_section' => $this->parent_section));
+        else echo 'Список';
     }
 }

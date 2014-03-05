@@ -11,6 +11,7 @@ namespace model;
 require_once '/model/ArticleModel.php';
 
 use Form\RichEditField;
+use Lists\ChildListLinkField;
 use Lists\EditLinkField;
 use Lists\PlaintextField;
 use Lists\ValueLinkField;
@@ -34,6 +35,9 @@ class Article extends \AdminModel{
 
         $this->addField(new \Form\EditField($this->app, 'alias', 'Ссылка', 'article', 150),
             new ValueLinkField($this->app, 'alias', 'Ссылка', 'article'));
+
+        $this->addField(null,
+            new ChildListLinkField($this->app, 'parent_id', 'Фотографии', 'articlephoto', 'article'));
     }
 
 } 

@@ -20,7 +20,7 @@ class ValueLinkField extends StdField{
             $id = $this->object->id;
         }
         ?>
-        <a href="<?php echo $value;?>"><?php echo $value;?></a>
+        <a href="<?php echo $value;?>" target="_blank"><?php echo $value;?></a>
 <?php
     }
 } 

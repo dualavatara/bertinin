@@ -8,6 +8,7 @@
 
 namespace model;
 
+use Form\HiddenField;
 use Lists\EditLinkField;
 use Lists\PlaintextField;
 
@@ -18,8 +19,8 @@ class Photo extends \AdminModel {
     public function __construct(\Admin\Application $app) {
         parent::__construct($app, new \PhotoModel($app['db']));
 
-        $this->addField(new \Form\EditField($this->app, 'parent_id', 'Родитель', 'photo', 50),
-            new EditLinkField($this->app, 'parent_id', 'Родитель', 'photo'));
+        $this->addField(new HiddenField($this->app, 'parent_id', 'Родитель', 'navigation', $_REQUEST['parent_id']),
+            new PlaintextField($this->app, 'parent_id', 'Родитель', 'photo'));
         $this->addField(new \Form\EditField($this->app, 'img', 'Изображение', 'photo', 50),
             new EditLinkField($this->app, 'img', 'Изображение', 'photo'));
         $this->addField(new \Form\EditField($this->app, 'imgtn', 'Предпросмотр', 'photo', 50),

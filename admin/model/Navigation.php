@@ -45,7 +45,7 @@ class Navigation extends \AdminModel{
 
     public function onList(Request $request) {
         if ($this->getParentId()) {
-            $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->exec();
+            $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->order('ord', 1)->exec();
         } else $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', 0))->order('ord', 1)->exec();
     }
 

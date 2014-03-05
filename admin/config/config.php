@@ -68,14 +68,25 @@ return array(
         'article_list' => array('/article/list', 'Article', 'list'),
         'article_save' => array('/article/save', 'Article', 'save'),
         'article_add' => array('/article/add', 'Article', 'add'),
+
+        'articlephoto_edit' => array('/articlephoto/edit/{id}', 'ArticlePhoto', 'edit'),
+        'articlephoto_delete' => array('/articlephoto/delete/{id}', 'ArticlePhoto', 'delete'),
+        'articlephoto_list' => array('/articlephoto/list', 'ArticlePhoto', 'list'),
+        'articlephoto_save' => array('/articlephoto/save', 'ArticlePhoto', 'save'),
+        'articlephoto_add' => array('/articlephoto/add', 'ArticlePhoto', 'add'),
 	),
 
 	'menu' => array(
+        'children' => array(
+            'title' => 'Подчиненные', 'sections' => array(
+                'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
+                'ArticlePhoto' => array('title' => 'Фотографии к статьям', 'route' => 'articlephoto_list', 'params' => array()),
+            )
+        ),
         'content' => array(
             'title' => 'Контент', 'sections' => array(
                 'Navigation' => array('title' => 'Разделы', 'route' => 'navigation_list', 'params' => array()),
                 'Article' => array('title' => 'Статьи', 'route' => 'article_list', 'params' => array()),
-                'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
             )
         ),
 		'sys' => array(
@@ -85,6 +96,8 @@ return array(
 				'Logs' => array('title' => 'Логи', 'route' => 'logs_list', 'params' => array()),
 			)
 		),
+
+
 		'logout' => array(
 			'title' => 'Выход', 'sections' => array(
 				'Auth' => array('title' => '', 'route' => 'logout'),

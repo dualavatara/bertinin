@@ -86,7 +86,9 @@ class StdController extends Controller {
 	public function do_save($request) {
 		$form = $request['form'];
 
-		$this->model->onSave($request);
+		$retform = $this->model->onSave($request);
+
+        if ($retform) $form = $retform;
 
 		if ($form['id']) $this->model->saveFromForm($form);
 		else $this->model->addFromForm($form);

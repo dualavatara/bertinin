@@ -5,12 +5,31 @@
  * Time: 20:53
  */
 
-require_once '../admin/lib/IAdminModel.php';
-require_once '../lib/filter.lib.php';
+require_once 'admin/lib/IAdminModel.php';
+require_once 'lib/filter.lib.php';
 
 use Admin\Extension\Template\Template;
 
 abstract class AdminModel implements IAdminModel {
+    /**
+     * @var Admin\Application
+     */
+    protected $app;
+    /**
+     * ID of parent object for chil list
+     * @var
+     */
+    protected $parentId;
+    /**
+     * Human readable parent`s name for list title
+     * @var
+     */
+    protected $parentName;
+    /**
+     * Parent_id of a parent. For navigation to upper list
+     * @var
+     */
+    protected $parentParentId;
 	/**
 	 * @var Model
 	 */
@@ -20,16 +39,13 @@ abstract class AdminModel implements IAdminModel {
 	 */
 	private $fields = array();
 
-    /**
-     * @var Admin\Application
-     */
-    protected $app;
-
-    /**
-     * ID of parent object for chil list
-     * @var
-     */
-    protected $parentId;
+	/**
+	 * @param Model $model
+	 */
+	public function __construct(\Admin\Application $app, Model $model) {
+		$this->model = $model;
+        $this->app = $app;
+	}
 
     /**
      * @return mixed
@@ -46,40 +62,10 @@ abstract class AdminModel implements IAdminModel {
     }
 
     /**
-     * Human readable parent`s name for list title
-     * @var
-     */
-    protected $parentName;
-
-    /**
-     * Parent_id of a parent. For navigation to upper list
-     * @var
-     */
-    protected $parentParentId;
-
-    /**
      * @return mixed
      */
     public function getParentParentId() {
         return $this->parentParentId;
-    }
-
-	/**
-	 * @param Model $model
-	 */
-	public function __construct(\Admin\Application $app, Model $model) {
-		$this->model = $model;
-        $this->app = $app;
-	}
-
-    /**
-     * @param $parentId
-     * @param $parentSection
-     * @param string $parentName
-     */
-    public function setParent($parentId, $parentName = '') {
-        $this->parentId = $parentId;
-        $this->parentName = $parentName;
     }
 
     /**
@@ -104,18 +90,41 @@ abstract class AdminModel implements IAdminModel {
             : array();
         return $params;
     }
+
     /**
      * Called before action`s call on controller: do_list, do_edit, do_save etc.
      * @param \Admin\Request $request
      */
     public function onAction(\Admin\Request $request) {
         if ($request['parent_id']) {
-            $this->getModel()->get($request['parent_id'])->exec();
-            $parentName = $this->getModel()->count() ? $this->getModel()[0]->name : '';
             $this->parentParentId = $this->getModel()->count() ? $this->getModel()[0]->parent_id : '';
-            $this->setParent($request['parent_id'], $parentName);
+            $this->setParent($request['parent_id'], '');
             $this->getModel()->clear();
         }
+    }
+
+	/**
+	 * @return \Model
+	 */
+	public function getModel() {
+		return $this->model;
+	}
+
+    /**
+     * @param \Model $model
+     */
+    public function setModel($model) {
+        $this->model = $model;
+    }
+
+    /**
+     * @param $parentId
+     * @param $parentSection
+     * @param string $parentName
+     */
+    public function setParent($parentId, $parentName = '') {
+        $this->parentId = $parentId;
+        $this->parentName = $parentName;
     }
 
     /**
@@ -173,13 +182,6 @@ abstract class AdminModel implements IAdminModel {
 	 */
 	public function delById($id) {
 		$this->model->get($id)->delete()->exec();
-	}
-
-	/**
-	 * @return \Model
-	 */
-	public function getModel() {
-		return $this->model;
 	}
 }
 
