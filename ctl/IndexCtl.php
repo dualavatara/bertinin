@@ -7,7 +7,7 @@
 
 namespace Ctl;
 
-require_once '/model/ArticleModel.php';
+require_once 'model/ArticleModel.php';
 
 use View\ArticleView;
 use View\Page4040View;

@@ -8,7 +8,7 @@
 
 namespace model;
 
-require_once '/model/NavigationModel.php';
+require_once 'model/NavigationModel.php';
 
 use Admin\Request;
 use Form\HiddenField;

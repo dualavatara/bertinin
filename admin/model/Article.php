@@ -8,7 +8,7 @@
 
 namespace model;
 
-require_once '/model/ArticleModel.php';
+require_once 'model/ArticleModel.php';
 
 use Form\RichEditField;
 use Lists\ChildListLinkField;

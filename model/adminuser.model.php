@@ -1,6 +1,6 @@
 <?php
 
-require_once '../lib/model.lib.php';
+require_once 'lib/model.lib.php';
 
 class AdminUserModel extends Model {
     /**

@@ -6,7 +6,7 @@
  * Time: 12:06
  */
 
-require_once '../lib/model.lib.php';
+require_once 'lib/model.lib.php';
 
 class AdminLogsModel extends Model {
     /**
