@@ -37,7 +37,7 @@ class ArticlePhoto extends \AdminModel {
     public function onList(\Admin\Request $request) {
         if ($this->getParentId()) {
             $this->getModel()->get()->filter($this->getModel()->filterExpr()->eq('parent_id', $this->getParentId()))->order('ord', 1)->exec();
-        } else $this->getModel()->get()->order('ord', 1)->exec();
+        } else $this->getModel()->get()->all()->order('ord', 1)->exec();
     }
 
     public function onSave(\Admin\Request $request) {
