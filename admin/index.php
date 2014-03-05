@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/lib/Admin/Application.php';
+require_once 'model/adminuser.model.php';
+require_once 'model/adminaccess.model.php';
 
 $config = require dirname(__FILE__) . '/config/config.php';
 $app = new \Admin\Application($config);
