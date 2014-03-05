@@ -52,6 +52,9 @@ class BaseView implements IView {
         <!DOCTYPE html>
         <html>
         <head>
+
+
+
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <title>
                 <?php if ($this->title) echo $this->title;
@@ -79,6 +82,9 @@ class BaseView implements IView {
 
             <script src="/admin/static/lightbox/js/lightbox-2.6.min.js"></script>
             <link href="/admin/static/lightbox/css/lightbox.css" rel="stylesheet" />
+
+            <link id="page_favicon" href="/favicon.ico" rel="icon" type="image/x-icon" />
+            <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
         </head>
         <body>
