@@ -22,8 +22,9 @@ class Photo extends \Admin\StdModel {
         $nmodel = $model ? $model : new \PhotoModel($app['db']);
         parent::__construct($app, $nmodel);
 
+        $listField = $_REQUEST['parent_id'] ? null : new PlaintextField($this->app, 'parent_id', 'Родитель', $section);
         $this->addField(new HiddenField($this->app, 'parent_id', 'Родитель', $parentSection, $_REQUEST['parent_id']),
-            null);
+            $listField);
         $this->addField(new \Form\EditField($this->app, 'alt', 'Всплывающий текст', $section, 50),
             new EditLinkField($this->app, 'alt', 'Всплывающий текст', $section));
         $this->addField(new ImageField($this->app, 'imgtn', 'Предпросмотр', $section),
