@@ -110,9 +110,9 @@ return array(
 	'menu' => array(
         'children' => array(
             'title' => 'Подчиненные', 'sections' => array(
-                'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
+                'GalleryPhoto' => array('title' => 'Фотографии галерей', 'route' => 'galleryphoto_list', 'params' => array()),
                 'ArticlePhoto' => array('title' => 'Фотографии к статьям', 'route' => 'articlephoto_list', 'params' => array()),
-                'CompoundPhoto' => array('title' => 'Фотографии к статьям', 'route' => 'compoundphoto_list', 'params' => array()),
+                'CompoundPhoto' => array('title' => 'Фотографии к составным страницам', 'route' => 'compoundphoto_list', 'params' => array()),
             )
         ),
         'content' => array(
