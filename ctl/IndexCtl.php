@@ -9,9 +9,11 @@ namespace Ctl;
 
 require_once 'model/ArticleModel.php';
 require_once 'model/CompoundPageModel.php';
+require_once 'model/GalleryModel.php';
 
 use View\ArticleView;
 use View\CompoundView;
+use View\GalleryView;
 use View\Page4040View;
 
 class IndexCtl extends BaseCtl {
@@ -53,6 +55,14 @@ class IndexCtl extends BaseCtl {
         if ($compounds->getAliased($alias)) {
             $view = new CompoundView();
             $view->compound = $compounds;
+            $view->navmodel = $this->navmodel;
+            return $view;
+        }
+
+        $galleries = new \GalleryModel($this->disp->di()->PDODatabase());
+        if ($galleries->getAliased($alias)) {
+            $view = new GalleryView();
+            $view->gallery = $galleries;
             $view->navmodel = $this->navmodel;
             return $view;
         }

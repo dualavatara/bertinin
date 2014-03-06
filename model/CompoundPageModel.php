@@ -6,22 +6,13 @@
  * Time: 11:59
  */
 
+require_once 'model/WebpageModel.php';
 require_once 'model/CompoundPhotoModel.php';
 require_once 'model/CompoundLeadModel.php';
 
-class CompoundPageModel extends Model{
+class CompoundPageModel extends WebpageModel{
     public function __construct(IDatabase $db) {
         parent::__construct('compound_page', $db);
-
-        $this->field(new CharField('title'));
-        $this->field(new CharField('description'));
-        $this->field(new CharField('keywords'));
-        $this->field(new CharField('alias'));
-    }
-
-    public function getAliased($alias) {
-        $this->get()->filter($this->filterExpr()->eq('alias', $alias))->exec();
-        return $this->count();
     }
 
     public function getPhotos($id) {

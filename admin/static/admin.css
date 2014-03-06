@@ -203,6 +203,8 @@ table.list th {
 	background-color: #F8F8F8;
 }
 
+#accessrow:nth-child(even) {background: #F8F8F8}
+#accessrow:nth-child(odd) {background: #E8E8E8}
 /* Some staff */
 
 .updated {

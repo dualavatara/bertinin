@@ -80,7 +80,7 @@ class BaseView implements IView {
             <script src="/static/js/jquery-2.1.0.js" language="JavaScript"></script>
             <script src="/static/js/jquery-ui-1.10.4.custom.js" language="JavaScript"></script>
 
-            <script src="/admin/static/lightbox/js/lightbox-2.6.min.js"></script>
+            <script src="/admin/static/lightbox/js/lightbox.js"></script>
             <link href="/admin/static/lightbox/css/lightbox.css" rel="stylesheet" />
 
             <link id="page_favicon" href="/favicon.ico" rel="icon" type="image/x-icon" />

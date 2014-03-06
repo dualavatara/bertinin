@@ -24,7 +24,7 @@ class Layout extends Template {
 
         <script src="/admin/static/ckeditor/ckeditor.js"></script>
 
-        <script src="/admin/static/lightbox/js/lightbox-2.6.min.js"></script>
+        <script src="/admin/static/lightbox/js/lightbox.js"></script>
         <link href="/admin/static/lightbox/css/lightbox.css" rel="stylesheet" />
 
 		<style type="text/css">

@@ -92,7 +92,20 @@ return array(
         'compoundlead_list' => array('/compoundlead/list', 'CompoundLead', 'list'),
         'compoundlead_save' => array('/compoundlead/save', 'CompoundLead', 'save'),
         'compoundlead_add' => array('/compoundlead/add', 'CompoundLead', 'add'),
-	),
+
+        'gallery_edit' => array('/gallery/edit/{id}', 'Gallery', 'edit'),
+        'gallery_delete' => array('/gallery/delete/{id}', 'Gallery', 'delete'),
+        'gallery_list' => array('/gallery/list', 'Gallery', 'list'),
+        'gallery_save' => array('/gallery/save', 'Gallery', 'save'),
+        'gallery_add' => array('/gallery/add', 'Gallery', 'add'),
+
+        'galleryphoto_edit' => array('/galleryphoto/edit/{id}', 'GalleryPhoto', 'edit'),
+        'galleryphoto_delete' => array('/galleryphoto/delete/{id}', 'GalleryPhoto', 'delete'),
+        'galleryphoto_list' => array('/galleryphoto/list', 'GalleryPhoto', 'list'),
+        'galleryphoto_save' => array('/galleryphoto/save', 'GalleryPhoto', 'save'),
+        'galleryphoto_add' => array('/galleryphoto/add', 'GalleryPhoto', 'add'),
+
+    ),
 
 	'menu' => array(
         'children' => array(
@@ -107,6 +120,7 @@ return array(
                 'Navigation' => array('title' => 'Разделы', 'route' => 'navigation_list', 'params' => array()),
                 'Article' => array('title' => 'Статьи', 'route' => 'article_list', 'params' => array()),
                 'CompoundPage' => array('title' => 'Составные страницы', 'route' => 'compoundpage_list', 'params' => array()),
+                'Gallery' => array('title' => 'Галереи', 'route' => 'gallery_list', 'params' => array()),
             )
         ),
 		'sys' => array(

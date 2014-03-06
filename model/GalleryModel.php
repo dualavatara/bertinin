@@ -2,22 +2,21 @@
 /**
  * Created by PhpStorm.
  * User: dualavatara
- * Date: 04.03.14
- * Time: 17:42
+ * Date: 06.03.14
+ * Time: 15:12
  */
 
 require_once 'model/WebpageModel.php';
-require_once 'model/ArticlePhotoModel.php';
 
-class ArticleModel extends WebpageModel {
+class GalleryModel extends WebpageModel {
     public function __construct(IDatabase $db) {
-        parent::__construct('article', $db);
+        parent::__construct('gallery', $db);
 
-        $this->field(new CharField('note'));
+        $this->field(new FlagsField('flags'));
     }
 
     public function getPhotos($id) {
-        $m = new ArticlePhotoModel($this->db);
+        $m = new CompoundPhotoModel($this->db);
         $m->get()->filter($m->filterExpr()->eq('parent_id', $id))->order('ord', 1)->exec();
         return $m;
     }
