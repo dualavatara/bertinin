@@ -86,6 +86,12 @@ return array(
         'compoundphoto_list' => array('/compoundphoto/list', 'CompoundPhoto', 'list'),
         'compoundphoto_save' => array('/compoundphoto/save', 'CompoundPhoto', 'save'),
         'compoundphoto_add' => array('/compoundphoto/add', 'CompoundPhoto', 'add'),
+
+        'compoundlead_edit' => array('/compoundlead/edit/{id}', 'CompoundLead', 'edit'),
+        'compoundlead_delete' => array('/compoundlead/delete/{id}', 'CompoundLead', 'delete'),
+        'compoundlead_list' => array('/compoundlead/list', 'CompoundLead', 'list'),
+        'compoundlead_save' => array('/compoundlead/save', 'CompoundLead', 'save'),
+        'compoundlead_add' => array('/compoundlead/add', 'CompoundLead', 'add'),
 	),
 
 	'menu' => array(

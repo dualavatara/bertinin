@@ -12,6 +12,7 @@ use Form\HiddenField;
 use Form\ImageField;
 use Lists\EditLinkField;
 use Lists\ImageLinkField;
+use Lists\PlaintextField;
 use Lists\ValueLinkField;
 
 require_once 'model/PhotoModel.php';
@@ -30,7 +31,7 @@ class Photo extends \Admin\StdModel {
         $this->addField(new ImageField($this->app, 'img', 'Изображение', $section),
             new ValueLinkField($this->app, 'img', 'Изображение', $section));
         $this->addField(new \Form\EditField($this->app, 'ord', 'Порядок', $section, 50),
-            new EditLinkField($this->app, 'ord', 'Порядок', $section));
+            new PlaintextField($this->app, 'ord', 'Порядок', $section));
     }
 
     public function onList(\Admin\Request $request) {

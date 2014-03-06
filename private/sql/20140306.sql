@@ -12,5 +12,7 @@ CREATE TABLE `compound_lead` (
   `title` tinytext,
   `url` tinytext,
   `note` text,
+  `parent_id` int(11) DEFAULT NULL,
+  `ord` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

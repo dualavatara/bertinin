@@ -36,7 +36,8 @@ class RichEditField extends StdField {
                 // instance, using default configuration.
                 CKEDITOR.replace( 'form[<?php echo $this->name; ?>]', {
                     width: '<?php echo $this->size; ?>',
-                    uiColor: '#335240'
+                    uiColor: '#335240',
+                    fillEmptyBlocks: false
                 } );
             </script>
             </div>

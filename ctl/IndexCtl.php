@@ -8,8 +8,10 @@
 namespace Ctl;
 
 require_once 'model/ArticleModel.php';
+require_once 'model/CompoundPageModel.php';
 
 use View\ArticleView;
+use View\CompoundView;
 use View\Page4040View;
 
 class IndexCtl extends BaseCtl {
@@ -43,6 +45,14 @@ class IndexCtl extends BaseCtl {
         if ($articles->getAliased($alias)) {
             $view = new ArticleView();
             $view->article = $articles;
+            $view->navmodel = $this->navmodel;
+            return $view;
+        }
+
+        $compounds = new \CompoundPageModel($this->disp->di()->PDODatabase());
+        if ($compounds->getAliased($alias)) {
+            $view = new CompoundView();
+            $view->compound = $compounds;
             $view->navmodel = $this->navmodel;
             return $view;
         }

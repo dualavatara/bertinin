@@ -94,3 +94,28 @@ footer #copyright {
     margin-bottom: 18px;
     margin-right: 45px;
 }
+
+div#compound {
+
+}
+
+#compounda img {
+    max-width: 140px;
+}
+
+#compounda:first-child {
+    margin-left: 0px;
+}
+
+#compounda {
+    margin-left: 6.25px;
+}
+
+a#compound {
+    text-decoration: none;
+    color: #000000;
+}
+
+a#compound:hover {
+    text-decoration: underline;
+}

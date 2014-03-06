@@ -36,7 +36,7 @@ class CompoundPage extends \Admin\StdModel{
             new ChildListLinkField($this->app, 'parent_id', 'Фотографии', 'compoundphoto', 'compoundpage'));
 
         $this->addField(null,
-            new ChildListLinkField($this->app, 'parent_id', 'Лиды', 'compoundleads', 'compoundpage'));
+            new ChildListLinkField($this->app, 'parent_id', 'Лиды', 'compoundlead', 'compoundpage'));
     }
 
 } 
