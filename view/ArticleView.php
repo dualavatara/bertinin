@@ -10,6 +10,10 @@ namespace View;
 
 
 class ArticleView extends BaseView {
+
+    /**
+     * @var \ArticleModel
+     */
     public $article;
 
     public function show($content = null) {
@@ -22,15 +26,18 @@ class ArticleView extends BaseView {
         ?>
         <article>
             <h1><?php echo $this->article[0]->title;?></h1>
-            <div style="width: 150px;float: left;">
+
                 <?php
                 $images = $this->article->getPhotos($this->article[0]->id);
+                if ($images->count()) {
+                    echo '<div style="width: 150px;float: left;">';
                 foreach($images as $img) {
                     echo '<a href="' . $img->img . '" data-lightbox="articleimage'.$this->article[0]->id.'" target="_blank"><img src="' . $img->imgtn . '" style="max-width: 150px;" alt="' . $img->alt . '"></a>';
                 }
+                    echo '</div>';
+                }
                 ?>
-            </div>
-            <div style="margin-left: 180px;margin-right: 20px;">
+            <div style="<?php if ($images->count()) echo 'margin-left: 180px;'; ?>margin-right: 20px;">
                 <?php echo $this->article[0]->note;?>
             </div>
         </article>
