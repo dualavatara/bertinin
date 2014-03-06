@@ -74,6 +74,18 @@ return array(
         'articlephoto_list' => array('/articlephoto/list', 'ArticlePhoto', 'list'),
         'articlephoto_save' => array('/articlephoto/save', 'ArticlePhoto', 'save'),
         'articlephoto_add' => array('/articlephoto/add', 'ArticlePhoto', 'add'),
+
+        'compoundpage_edit' => array('/compoundpage/edit/{id}', 'CompoundPage', 'edit'),
+        'compoundpage_delete' => array('/compoundpage/delete/{id}', 'CompoundPage', 'delete'),
+        'compoundpage_list' => array('/compoundpage/list', 'CompoundPage', 'list'),
+        'compoundpage_save' => array('/compoundpage/save', 'CompoundPage', 'save'),
+        'compoundpage_add' => array('/compoundpage/add', 'CompoundPage', 'add'),
+
+        'compoundphoto_edit' => array('/compoundphoto/edit/{id}', 'CompoundPhoto', 'edit'),
+        'compoundphoto_delete' => array('/compoundphoto/delete/{id}', 'CompoundPhoto', 'delete'),
+        'compoundphoto_list' => array('/compoundphoto/list', 'CompoundPhoto', 'list'),
+        'compoundphoto_save' => array('/compoundphoto/save', 'CompoundPhoto', 'save'),
+        'compoundphoto_add' => array('/compoundphoto/add', 'CompoundPhoto', 'add'),
 	),
 
 	'menu' => array(
@@ -81,12 +93,14 @@ return array(
             'title' => 'Подчиненные', 'sections' => array(
                 'Photo' => array('title' => 'Фотографии', 'route' => 'photo_list', 'params' => array()),
                 'ArticlePhoto' => array('title' => 'Фотографии к статьям', 'route' => 'articlephoto_list', 'params' => array()),
+                'CompoundPhoto' => array('title' => 'Фотографии к статьям', 'route' => 'compoundphoto_list', 'params' => array()),
             )
         ),
         'content' => array(
             'title' => 'Контент', 'sections' => array(
                 'Navigation' => array('title' => 'Разделы', 'route' => 'navigation_list', 'params' => array()),
                 'Article' => array('title' => 'Статьи', 'route' => 'article_list', 'params' => array()),
+                'CompoundPage' => array('title' => 'Составные страницы', 'route' => 'compoundpage_list', 'params' => array()),
             )
         ),
 		'sys' => array(

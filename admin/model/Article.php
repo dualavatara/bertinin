@@ -17,7 +17,7 @@ use Lists\PlaintextField;
 use Lists\ValueLinkField;
 use Model;
 
-class Article extends \AdminModel{
+class Article extends \Admin\StdModel{
     public function __construct(\Admin\Application $app) {
         parent::__construct($app, new \ArticleModel($app['db']));
 

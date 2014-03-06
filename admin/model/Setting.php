@@ -5,9 +5,8 @@ use Lists\EditLinkField;
 use Lists\PlaintextField;
 
 require_once 'model/SettingModel.php';
-require_once 'admin/lib/AdminModel.php';
 
-class Setting extends \AdminModel {
+class Setting extends \Admin\StdModel {
 	/**
 	 * @param IDatabase $db
 	 */

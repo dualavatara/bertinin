@@ -5,14 +5,15 @@
  * Time: 20:53
  */
 
-require_once 'admin/lib/IAdminModel.php';
+namespace Admin;
 require_once 'lib/filter.lib.php';
 
 use Admin\Extension\Template\Template;
+use Model;
 
-abstract class AdminModel implements IAdminModel {
+abstract class StdModel {
     /**
-     * @var Admin\Application
+     * @var Application
      */
     protected $app;
     /**
@@ -30,22 +31,23 @@ abstract class AdminModel implements IAdminModel {
      * @var
      */
     protected $parentParentId;
-	/**
-	 * @var Model
-	 */
-	private $model;
-	/**
-	 * @var Template[]
-	 */
-	private $fields = array();
+    /**
+     * @var Model
+     */
+    private $model;
+    /**
+     * @var Template[]
+     */
+    private $fields = array();
 
-	/**
-	 * @param Model $model
-	 */
-	public function __construct(\Admin\Application $app, Model $model) {
-		$this->model = $model;
+    /**
+     * @param Application $app
+     * @param Model $model
+     */
+    public function __construct(Application $app, Model $model) {
+        $this->model = $model;
         $this->app = $app;
-	}
+    }
 
     /**
      * @return mixed
@@ -72,14 +74,16 @@ abstract class AdminModel implements IAdminModel {
      * @param $formfield
      * @param $listfield
      */
-    public function addField($formfield,  $listfield) {
+    public function addField($formfield, $listfield) {
         $this->fields[] = array('formfield' => $formfield, 'listfield' => $listfield);
     }
 
     /**
      * @return \Admin\Extension\Template\Template[]
      */
-    public function getFields() { return $this->fields; }
+    public function getFields() {
+        return $this->fields;
+    }
 
     /**
      * Generate array witl params for use in getUrl function
@@ -95,7 +99,7 @@ abstract class AdminModel implements IAdminModel {
      * Called before action`s call on controller: do_list, do_edit, do_save etc.
      * @param \Admin\Request $request
      */
-    public function onAction(\Admin\Request $request) {
+    public function onAction(Request $request) {
         if ($request['parent_id']) {
             $this->parentParentId = $this->getModel()->count() ? $this->getModel()[0]->parent_id : '';
             $this->setParent($request['parent_id'], '');
@@ -103,12 +107,12 @@ abstract class AdminModel implements IAdminModel {
         }
     }
 
-	/**
-	 * @return \Model
-	 */
-	public function getModel() {
-		return $this->model;
-	}
+    /**
+     * @return \Model
+     */
+    public function getModel() {
+        return $this->model;
+    }
 
     /**
      * @param \Model $model
@@ -119,7 +123,6 @@ abstract class AdminModel implements IAdminModel {
 
     /**
      * @param $parentId
-     * @param $parentSection
      * @param string $parentName
      */
     public function setParent($parentId, $parentName = '') {
@@ -128,60 +131,61 @@ abstract class AdminModel implements IAdminModel {
     }
 
     /**
+     * @param Request $request
+     */
+    public function onSave(Request $request) {
+    }
+
+    /**
+     * Select all object`s rows from database
+     */
+    public function onList(/** @noinspection PhpUnusedParameterInspection */
+        Request $request) {
+        $this->getModel()->get()->all()->exec();
+    }
+
+    /**
+     * Adds new object record into database
      * @param $form
      */
-    public function onSave(\Admin\Request $request) {}
+    public function addFromForm($form) {
+        $this->model->clear();
+        $this->model[0] = $form;
+        unset($this->model->data[0]['id']);
+        $this->model->insert()->exec();
+    }
 
-	/**
-	 * Select all object`s rows from database
-	 */
-	public function onList(\Admin\Request $request) {
-		$this->getModel()->get()->all()->exec();
-	}
+    /**
+     * Selects object by id
+     * @param $id
+     * @return mixed    array if found, otherwise false
+     */
+    public function getById($id) {
+        $this->model->get($id)->exec();
+        if ($this->model->count()) /** @noinspection PhpUndefinedMethodInspection */
+            return $this->model[0]->all();
+        return false;
+    }
 
-	/**
-	 * Adds new object record into database
-	 * @param string $name
-	 * @param string $sign
-	 * @param float $value
-	 */
-	public function addFromForm($form) {
-		$this->model->clear();
-		$this->model[0] = $form;
-		unset($this->model->data[0]['id']);
-		$this->model->insert()->exec();
-	}
+    /**
+     * Saves single object from form array as array('field' => 'value', ...)
+     * $form['id'] is required
+     * @param array $form
+     */
+    public function saveFromForm($form) {
+        if (isset($form['id'])) {
+            $this->model->clear();
+            $this->model[0] = $form;
+            $this->model->update()->exec();
+        }
+    }
 
-	/**
-	 * Selects object by id
-	 * @param $id
-	 * @return mixed    array if found, otherwise false
-	 */
-	public function getById($id) {
-		$this->model->get($id)->exec();
-		if ($this->model->count()) return $this->model[0]->all();
-		return false;
-	}
-
-	/**
-	 * Saves single object from form array as array('field' => 'value', ...)
-	 * $form['id'] is required
-	 * @param array $form
-	 */
-	public function saveFromForm($form) {
-		if (isset($form['id'])) {
-			$this->model->clear();
-			$this->model[0] = $form;
-			$this->model->update()->exec();
-		}
-	}
-
-	/**
-	 * Deletes object by id
-	 * @param $id
-	 */
-	public function delById($id) {
-		$this->model->get($id)->delete()->exec();
-	}
+    /**
+     * Deletes object by id
+     * @param $id
+     */
+    public function delById($id) {
+        $this->model->get($id)->delete()->exec();
+    }
 }
 

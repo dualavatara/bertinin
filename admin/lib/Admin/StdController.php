@@ -18,11 +18,11 @@ class StdController extends Controller {
 	protected $objectName;
 
 	/**
-	 * @var \AdminModel
+	 * @var \Admin\StdModel
 	 */
 	protected $model;
 
-	public function __construct(\Admin\Application $app, \AdminModel $model, $objectName = '' ) {
+	public function __construct(\Admin\Application $app, \Admin\StdModel $model, $objectName = '' ) {
 		preg_match('/.*\\\\(?<class>[[:alpha:]]+)$/', get_class($this), $m);
 		$classname = $m['class'];
 		$this->data = $data = array('section' => $classname);
