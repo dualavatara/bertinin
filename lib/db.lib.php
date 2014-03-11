@@ -39,4 +39,6 @@ interface IDatabase {
 	public function quot($value, $valquot = false);
 }
 
+class DatabaseException extends Exception {}
+
 ?>

@@ -34,6 +34,7 @@ class PDODatabase implements IDatabase {
 				$err = $statement->errorInfo();
 				$log = "SQL error " . $err[1] . ": " . $err[2];
 				Logger::obj()->error($log);
+                throw new DatabaseException($log);
 			}
 		}
 		return false;
@@ -59,7 +60,9 @@ class PDODatabase implements IDatabase {
         try {
 		    $this->dbh = new PDO($dsn, $username, $password, $options);
         } catch (PDOException $e) {
-            error_log('Connection failed: ' . $e->getMessage());
+            $msg = 'Connection failed: ' . $e->getMessage();
+            error_log($msg);
+            throw new DatabaseException($msg);
         }
 	}
 
