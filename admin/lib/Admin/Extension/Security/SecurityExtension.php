@@ -2,33 +2,33 @@
 
 namespace Admin\Extension\Security;
 
+use Admin\Application;
+use Admin\Event;
+use Admin\ExtensionInterface;
+use Admin\Response;
+
 require_once 'model/adminlogs.model.php';
 /**
  * Depends on Session extension.
  */
-class SecurityExtension implements \Admin\ExtensionInterface {
+class SecurityExtension implements ExtensionInterface {
 	
 	/**
 	 * @var \Admin\Application
 	 */
 	private $app;
 	
-	public function register(\Admin\Application $app) {
-		$config = $app->getConfig();
-		$className = $config['security.options']->class;
+	public function register(Application $app) {
+		$user = new \SecurityUser($app);
+
+		$app->setUser($user);
 		
-		$user = new $className($app);
-		if (!($user instanceof SecurityUserInterface)) {
-			throw new \UnexpectedValueException($className . ' class is not implementing SecurityUserInterface.');
-		}
-		$app['user'] = $user;
-		
-		$app['dispatcher']->connect(\Admin\Event::REQUEST, array($this, 'onRequest'));
+		$app->getDispatcher()->connect(Event::REQUEST, array($this, 'onRequest'));
 		
 		$this->app = $app;
 	}
 	
-	public function onRequest(\Admin\Event $event) {
+	public function onRequest(Event $event) {
 		$config = $this->app->getConfig();
 		$options = $config['security.options'];
 		
@@ -38,18 +38,17 @@ class SecurityExtension implements \Admin\ExtensionInterface {
 
 
 		$data = $event->getData();
-        //$this->app['session']->remove('user');//принудительный логаут
 
         //Logging user requests
         $logroute = $config['routes'][$data['route']];
-        $msg = 'Class: ' . $logroute[1] . ', action: ' . $logroute[2];
         $logactions = $config['logactions'];
 
+        /** @noinspection PhpUndefinedMethodInspection */
         if ($logactions->in_array($logroute[2])) {
             $logmodel = new \AdminLogsModel($this->app['db']);
             $form = isset($_REQUEST['form']) ? serialize($_REQUEST['form']) : '';
             $logmodel[0] = array('ts' => \DateTimeWithTZField::fromTimestamp(time()),
-                'user_id' =>$this->app['user']->id,
+                'user_id' =>$this->app->getUser()->id,
                 'class' => $logroute[1],
                 'action' => $logroute[2],
                 'form' => $form,
@@ -59,16 +58,16 @@ class SecurityExtension implements \Admin\ExtensionInterface {
         }
 		if (
 			$data['route'] != $options['login_route'] && // If user is not on login page
-			!$this->app['user']->isAuthenticated()       // and not logged in
+			!$this->app->getUser()->isAuthenticated()       // and not logged in
 		) {
 			// Save requested page to redirect user back to it
-			$this->app['session']->write('referrer', $data['url']); 
+			$this->app->getSession()->write('referrer', $data['url']);
 			// Redirect it to login page
 			$login_url = $this->app->getUrl($options['login_route']);
 			return $this->app->redirect($login_url);
 		}
-        else if(!$this->app['user']->checkRoute($data['route'])) {
-		    return new \Admin\Response('Path restricted to user', 403);
+        else if(!$this->app->getUser()->checkRoute($data['route'])) {
+		    return new Response('Path restricted to user', 403);
 		}
 		
 		return null;

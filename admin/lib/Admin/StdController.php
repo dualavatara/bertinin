@@ -18,11 +18,11 @@ class StdController extends Controller {
 	protected $objectName;
 
 	/**
-	 * @var \AdminModel
+	 * @var \Admin\StdModel
 	 */
 	protected $model;
 
-	public function __construct(\Admin\Application $app, \AdminModel $model, $objectName = '' ) {
+	public function __construct(\Admin\Application $app, \Admin\StdModel $model, $objectName = '' ) {
 		preg_match('/.*\\\\(?<class>[[:alpha:]]+)$/', get_class($this), $m);
 		$classname = $m['class'];
 		$this->data = $data = array('section' => $classname);
@@ -42,7 +42,7 @@ class StdController extends Controller {
     public function do_add() {
 		$this->data['model'] = $this->model;
         $formTemplate = $this->objectName ? $this->objectName.'\FormTemplate' : 'FormModelTemplate';
-		return $this->app['template']->render($formTemplate, $this->data);
+		return $this->app->getTemplateEngine()->render($formTemplate, $this->data);
 	}
 
 	public function do_delete(\Admin\Request $request) {
@@ -69,7 +69,7 @@ class StdController extends Controller {
 		$this->data['model'] = $this->model;
 
         $formTemplate = $this->objectName ? $this->objectName.'\FormTemplate' : 'FormModelTemplate';
-        return $this->app['template']->render($formTemplate, $this->data);
+        return $this->app->getTemplateEngine()->render($formTemplate, $this->data);
 	}
 
 	public function do_list(\Admin\Request $request = null) {
@@ -80,19 +80,15 @@ class StdController extends Controller {
         $this->model->getModel()->fUseInQuery = false;
 
         $listTemplate = $this->objectName ? $this->objectName.'\ListTemplate' : 'ListModelTemplate';
-        return $this->app['template']->render($listTemplate, $this->data);
+        return $this->app->getTemplateEngine()->render($listTemplate, $this->data);
 	}
 
 	public function do_save($request) {
-
 		$form = $request['form'];
-		//var_dump($request); return;
-		if (count($form['routes'])) {
-			$routes = array_keys($form['routes']);
-			unset($form['routes']);
-		} else $routes = array();
 
-		$this->model->onSave($request);
+		$retform = $this->model->onSave($request);
+
+        if ($retform) $form = $retform;
 
 		if ($form['id']) $this->model->saveFromForm($form);
 		else $this->model->addFromForm($form);

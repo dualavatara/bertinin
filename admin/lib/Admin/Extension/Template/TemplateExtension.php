@@ -2,14 +2,15 @@
 
 namespace Admin\Extension\Template;
 
-class TemplateExtension implements \Admin\ExtensionInterface {
+use Admin\Application;
+use Admin\ExtensionInterface;
+
+class TemplateExtension implements ExtensionInterface {
 	
-	public function register(\Admin\Application $app) {
-		$app['template'] = $app->share(function(\Admin\Application $app) {
-			$config = $app->getConfig();
-			$template = new TemplateEngine($app, $config['template.options']);
-			
-			return $template;
-		});
+	public function register(Application $app) {
+        $config = $app->getConfig();
+        $template = new TemplateEngine($app, $config['template.options']);
+
+        $app->setTemplateEngine($template);
 	}
 } 

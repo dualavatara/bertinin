@@ -50,8 +50,8 @@ class FormTemplate extends Template {
             </div>
             <div id="access">
 
-					<input type="checkbox" id="allcheck" onchange="onAllChange('allcheck');" />
-					<label for="allcheck">Все</label>
+                <div class="user_access"><input type="checkbox" id="allcheck" onchange="onAllChange('allcheck');" />
+					<label for="allcheck">Все</label></div><div class="user_access_clear"></div>
                 <?php $i = 0;
 				$k = 0;
 				foreach($data['routes'] as $name_controller => $controller):
@@ -60,13 +60,14 @@ class FormTemplate extends Template {
 					if (($user->id == $this->app["user"]->id) && ($name_controller == 'User')) $dis = 'disabled';
 					else $dis = '';
 					?>
-					<fieldset>
-                    <legend>
+
+                    <div id="accessrow">
+                <div class="user_access" style="width: 200px;">
 						<input type="checkbox" id="allcheck_<?php echo $i;?>"
 							   onchange="onAllChange('allcheck\\_<?php echo $i;?>', 'allcheck');"
 							<?php echo $dis;?>
 							/>
-						<label for="allcheck_<?php echo $i;?>" ><?php echo $name_controller; ?></label></legend>
+						<label for="allcheck_<?php echo $i;?>" ><?php echo $name_controller; ?></label></div>
                     <?php
 					foreach($controller as $route_name => $action):
 						$k++;
@@ -88,7 +89,7 @@ class FormTemplate extends Template {
                     <?php endforeach; ?>
                     <div class="user_access_clear"></div>
 						<script type="text/javascript">checkParent('allcheck\\_<?php echo $i;?>');</script>
-					</fieldset>
+                    </div>
 	            <?php endforeach; ?>
 				<script type="text/javascript">checkParent('allcheck');</script>
             </div>

@@ -53,7 +53,7 @@ class Config extends \stdClass implements \IteratorAggregate, \ArrayAccess {
 	 * 
 	 * @param string $offset
 	 * 
-	 * @return mixed
+	 * @return Config
 	 */
 	public function offsetGet($offset) {
 		if (!isset($this->config[$offset])) {

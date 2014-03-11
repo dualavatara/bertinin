@@ -29,7 +29,7 @@ class ListTemplate extends Template {
 			<tr class="<?php echo ($i % 2) ? 'odd' : 'even'; ?>">
 				<td><?php echo $item->id; ?></td>
 				<td><?php
-                    if($this->app['user']->checkRoute('user_edit'))
+                    if($this->app->getUser()->checkRoute('user_edit'))
                         $this->showLink($item->login,'user_edit', array('id' => $item->id));
                     else echo $item->login;?>
 				</td>

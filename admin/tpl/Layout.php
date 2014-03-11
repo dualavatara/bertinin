@@ -18,6 +18,14 @@ class Layout extends Template {
 		<script src="<?=$config->baseUrl?>/static/admin.js"></script>
 		<script src="<?=$config->baseUrl?>/static/jquery/jqval/jquery.validate.js"></script>
 		<script src="<?=$config->baseUrl?>/static/jquery/jqval/localization/messages_ru.js"></script>
+        <script>
+            var CKEDITOR_BASEPATH = '/admin/static/ckeditor/';
+        </script>
+
+        <script src="/admin/static/ckeditor/ckeditor.js"></script>
+
+        <script src="/admin/static/lightbox/js/lightbox.js"></script>
+        <link href="/admin/static/lightbox/css/lightbox.css" rel="stylesheet" />
 
 		<style type="text/css">
 			label.invalid { float: none; color: red; padding-left: .5em; vertical-align: middle; }
@@ -30,7 +38,7 @@ class Layout extends Template {
 				<div class="topTitle"><?php echo $config->title ?></div>
 				<div class="userInfo">
 					<span>Вы зашли как</span>
-					<span class="userName"><?php echo $this->app['user']->login; ?></span>
+					<span class="userName"><?php echo $this->app->getUser()->login; ?></span>
 					<a href="<?php echo $this->getUrl('logout'); ?>">(Выйти)</a>
 				</div>
 			</td>

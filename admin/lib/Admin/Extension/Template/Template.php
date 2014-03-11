@@ -2,7 +2,7 @@
 
 namespace Admin\Extension\Template;
 
-use \Admin\Extension\Template\Escaper\HtmlEscaper;
+use Admin\Application;
 
 abstract class Template {
 	
@@ -20,7 +20,7 @@ abstract class Template {
     protected $section;
     private $parent;
 
-	public function __construct(\Admin\Application $app) {
+	public function __construct(Application $app) {
 		$this->app = $app;
 	}
 
@@ -31,47 +31,43 @@ abstract class Template {
         $this->fields = $fields;
     }
 
-    protected function setParent($parent) {
-		$this->parent = $parent;
-	}
-	
 	final public function render($data, $content = null) {
-		$escaper = new HtmlEscaper();
-		/*if ($data['model'] && isset($data['model']->noEscape) && $data['model']->noEscape) {}
-		else $data = $escaper->escape($data);*/
-		
 		ob_start();
 		$this->show($data, $content);
 		$content = ob_get_clean();
-		
+
 		if ($this->parent) {
-			return $this->app['template']->render($this->parent, $data, $content);
+			return $this->app->getTemplateEngine()->render($this->parent, $data, $content);
 		}
-					
+
 		return $content;
 	}
 	
 	abstract protected function show($data, $content = null);
 	
-	final public function getUrl($routeName, $params = array(), $noSessionParams = false) {
-		return $this->app->getUrl($routeName, $params, true);
-	}
-
 	final public function insertTemplate($templateClass, $data = array()) {
-		echo $this->app['template']->render($templateClass, $data);
+		echo $this->app->getTemplateEngine()->render($templateClass, $data);
 	}
-
+	
     public function showLink($name, $routeName, $params = array(), $attribute='', $noSessionParams = false) {
-	    // TODO: Security extension may be not registered
-       if($this->app['user']->checkRoute($routeName)){
+       if($this->app->getUser()->checkRoute($routeName)){
             if($url = $this->getUrl($routeName, $params, $noSessionParams)){
                 echo '<a href="'.$url.'" '.$attribute.'>'.$name.'</a>';
             }
         }
     }
+
+	final public function getUrl($routeName, $params = array()) {
+		return $this->app->getUrl($routeName, $params);
+	}
+
 	public function toParentLink() {
 		if ($_REQUEST['from_route']) {
 			echo '<a href="'.$_REQUEST['from_route'].'">[К родителю]</a>';
 		}
+	}
+
+    protected function setParent($parent) {
+		$this->parent = $parent;
 	}
 }

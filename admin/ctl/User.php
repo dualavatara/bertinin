@@ -2,8 +2,8 @@
 
 namespace ctl;
 
-require_once '../model/adminuser.model.php';
-require_once '../model/adminaccess.model.php';
+require_once 'model/adminuser.model.php';
+require_once 'model/adminaccess.model.php';
 
 class User extends \Admin\Controller {
 
@@ -15,7 +15,7 @@ class User extends \Admin\Controller {
 	public function do_add() {
 		$this->data['routes'] = $this->getAllRoutes();
 		$this->data['access'] = array();
-		return $this->app['template']->render('User\FormTemplate', $this->data);
+		return $this->app->getTemplateEngine()->render('User\FormTemplate', $this->data);
 	}
 
 	public function do_delete(\Admin\Request $request) {
@@ -42,10 +42,10 @@ class User extends \Admin\Controller {
 			return $this->app->error404();
 		}
 		$this->data['model'] = $model[0];
-		$this->data['access'] = $this->app['user']->getRoutes($id);
+		$this->data['access'] = $this->app->getUser()->getRoutes($id);
 		$this->data['routes'] = $this->getAllRoutes();
 
-		return $this->app['template']->render('User\FormTemplate', $this->data);
+		return $this->app->getTemplateEngine()->render('User\FormTemplate', $this->data);
 	}
 
 	public function do_list() {
@@ -54,7 +54,7 @@ class User extends \Admin\Controller {
 
 		$this->data['model'] = $model;
 
-		return $this->app['template']->render('User\ListTemplate', $this->data);
+		return $this->app->getTemplateEngine()->render('User\ListTemplate', $this->data);
 	}
 
 	public function do_save(\Admin\Request $request) {
@@ -96,7 +96,7 @@ class User extends \Admin\Controller {
 	    // Then insert only needed routes
 	    // Default routes are excluded
         foreach($data as $index => $route_name) {
-	        if (!in_array($route_name, $this->app['user']->getDefaultRoutes())) {
+	        if (!in_array($route_name, $this->app->getUser()->getDefaultRoutes())) {
 	            $model[$index] = array(
 	                'user_id' => $user_id,
 	                'route_name' => $route_name,
@@ -110,7 +110,7 @@ class User extends \Admin\Controller {
 		// Group routes by controller's name and remove default routes
 	    $routes = array();
 	    foreach($this->app->getConfig()->routes as $route_name => $item) {
-	        if (!in_array($route_name, $this->app['user']->getDefaultRoutes()))
+	        if (!in_array($route_name, $this->app->getUser()->getDefaultRoutes()))
 	            $routes[$item[1]][$route_name] = $item[2]; // 1 - Controller name, 2 - action
 	    }
 		

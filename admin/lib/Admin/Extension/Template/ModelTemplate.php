@@ -15,7 +15,7 @@ namespace Admin\Extension\Template;
  */
 class ModelTemplate extends Template{
     /**
-     * @var \AdminModel
+     * @var \Admin\StdModel
      */
     protected $model;
 
@@ -25,8 +25,8 @@ class ModelTemplate extends Template{
      * @throws \Exception
      */
     protected function show($data, $content = null) {
-        if ($data['model'] instanceof \AdminModel) $this->model = $data['model'];
-        else throw new \Exception('ModelTemplate must be used with AdminModel object in params');
+        if ($data['model'] instanceof \Admin\StdModel) $this->model = $data['model'];
+        else throw new \Exception('ModelTemplate must be used with StdModel object in params');
     }
 
     public function __construct(\Admin\Application $app) {

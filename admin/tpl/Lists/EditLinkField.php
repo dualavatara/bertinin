@@ -8,7 +8,6 @@
 
 namespace Lists;
 
-use Admin\Extension\Template\Template;
 use Form\StdField;
 
 /**
@@ -30,7 +29,7 @@ class EditLinkField extends StdField {
             $value = $this->object->{$this->name};
             $id = $this->object->id;
         }
-        if($this->app['user']->checkRoute($this->section . '_edit')) {
+        if($this->app->getUser()->checkRoute($this->section . '_edit')) {
             $params['id'] = $id;
             $this->showLink($value, $this->section . '_edit', $params);
         }

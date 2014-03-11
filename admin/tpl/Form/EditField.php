@@ -8,8 +8,6 @@
 
 namespace Form;
 
-use Admin\Extension\Template\Template;
-
 /**
  * Class EditField
  * @package Form
@@ -44,9 +42,11 @@ class EditField extends StdField {
         }
         ?>
         <div style="clear:both; line-height:25px;">
-        <label style="float:left; padding-right:10px; width: 150px; margin-right: -150px;text-align: right;" for="<?php echo $this->name; ?>"><?php echo $this->label; ?></label>
-        <input style="margin-left: 150px;" id="<?php echo $this->name; ?>" name="form[<?php echo $this->name; ?>]" size="<?php echo $this->size; ?>"
-               value="<?php echo $value; ?>"/>
+            <label style="float:left; padding-right:10px; width: 150px; margin-right: -150px;text-align: right;"
+                   for="<?php echo $this->name; ?>"><?php echo $this->label; ?></label>
+            <input style="margin-left: 150px;" id="<?php echo $this->name; ?>" name="form[<?php echo $this->name; ?>]"
+                   size="<?php echo $this->size; ?>"
+                   value="<?php echo $value; ?>"/>
         </div>
     <?php
     }
